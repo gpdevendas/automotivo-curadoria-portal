@@ -13,44 +13,27 @@
 </head>
 <body class="bg-stone-50 text-stone-900">
 
-  <header class="border-b border-stone-200 bg-white sticky top-0 z-20">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
-      <div class="flex items-center gap-3">
-        <img src="data:image/png;base64,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" alt="Grand Prix de Vendas" class="w-10 h-10 object-contain">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-widest text-red-600 leading-none">GP de Vendas · Automotivo</p>
-          <h1 class="text-lg font-bold text-stone-900 leading-tight">Radar Automotivo</h1>
-        </div>
+  <div class="border-b border-stone-200 bg-white sticky top-0 z-20">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
+      <div class="flex items-center gap-2.5">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUQAAAGtCAYAAABuoQ2MAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAHbxJREFUeNrsnctVG83WQEssL09/HMHXRICYeEorAkMEliLARGCIwBABcgSGCGimniBH4HYE5k494e8jnZZaQs9WP+qx91q6+Ppe29Kp0u5z6tkxAGt4ff8xLvzXtPPvZ0pUwFc6hCBIueU/j7PXof66W/j1rqT6yn/9R3+dZK+XTKIjog8IEdoSX1cFF2WvU/0Ztfy2cmk+6c8RogSECFXLL1L5nerP2LGPkKgkRY5JJskXWhUQImwrwEOV3if9GXn2EUWMD9nrngwSECKsKoFFfp81CwwFyRbvRZCZHO/pCYAQw5agCPDMwyxwHznekjkCQgxDgiK+vooQCa4mFTFmryFjjoAQ/ZLgoWaBn417EyK2ZI3XrI8EhOh+NvhVZXhIRPYmUTEmhAIQojsiFAFekA0iRkCIIYuwrxlhRDQaQUrpS0ppQIj2SFBK4b5mhIiwHW40Y2TyBRBiizK8UhEyPtg+L5otDgkFIERKY5iQZK8BZTQgxPpFKJMl3xChE9milNA3hAIQYvUi7KoIY6LhFPeaLTK2CAixAhEeamn8hWg4nS322AoIOQeEoJQM+9mP38jQeeSh9py1J+0IZIglRBhlP+4oj71E9kUPCANChO1keKUlMvjLSEtoxhURIqwQYVezwi7RQIrgN4whrpehjC09I8OgkLZ+1gchkCGCziD/MIwVhgwz0GSIoAusfyPD4JGH4iOZIhliyDKUBdYswYDFTPGIMUWEGFqJ/GgYK4TlMNFCyRyMDLtaIiNDWEVXH5iAEL2WYd9MZpE5ogs2SjHrL3eEASH6KkPp3HRw2IU+2/z8JrgxRJbUQAX0uLMFIfoiQyZPYF+YeaZkdl6GTJ5AVeRVBiBEZ2X4aJg8geqIGU+kZHZRhrLz5A4ZQk2l8wl3tJAhuiLDvpY2yBDqKp1ZqYAQnZEhnRUonSHskhkZQgulM7POZIjIEEBLZ05TJ0NEhgAFjphgIUO0RYYxMoSWof8hRCtkKOsMWSgLbRPrgxkQYqsyZNE12AJjiQ7j9Bii7k2W47simhIsgsMfyBBbkeEjMgQL+UwIEGLTcFcy2Iqcm8iDGiE2lh3KZVBnNB9YzAUhcA/nxhBZawiO8NL59/MDYSBDrFOGUiJ/o9nAAQ714Q0IsRYZ5odysrwGXIHJFYRYGyLDiCYDh4iZXEGIdWSHV4ZLocBNmPxDiJXKUETI6n+gbIbasXqWmZ0o4AmcgkOGWAl3yBAomyF4IerlUHQk8IFPhICSed9SWe5QZokN+MIHrhggQ9ynVEaG4BMxIUCIlMoAE04JAUIsUyqzTxnIEAEhmsk+ZUpl8BGOqkOIO2WH8gTt0yTgK9y3ghB3zQ4BKJshbCFmT84vlBQQAMeEACFukqGMGbJXGUIgIgQIcRMiQyZSIASogiyn1Z0qelbcb5oBAuKk8+/niDDYyTsLskNojmRFGUcp12zZjBAR4pvsUMqHPk1Qm/ie9IuXbpORaLYur9hMdlXEhLG2svmeMCDERVhmUx0v+iV7EBmWOURAz+tL8yxSJ7tkC+Unw1bKKvk/QmAvrYwh6gLVR8JfSSb4PZPZsOb2kszxQjN6JsD2bLOsvXqEASEWv2CPlGR7IQK8bXpwXrPGb4ahjn0YZe12QhgQYjHbYGa5fEY4aPs4es3wOc287Jfu388OUbCTNtYhMrO8OyLAnpRaNtzNkb0HEfOJZqoAZIhkh41xnQnoytY3p1fE8pDbDU7PJkMcc0HId84Kr2x+k/r+BjTXTrBjJXQh6oB8n5Bvxbgk1dLU/jJjMsuNFAEh7oCsZWPJxmaGOlboVEmlUhzSfIAQKZerQmaQnc209L2zLQ0Q4oZyWcZMGDfZLEMfMqxzM9k5A6uJCEHYGSLZYRgyzLcA3tKkCBEhLs8O8z2x4LkMC1K8MpNZcgCEuACTKau58U2GBa5pXkCIb/lEmJdyn8nw0tcPp6InSwSESLm8ERFFCOv2vtPUgBDny2V4yyCQrVtDmhoQIuXyOq5d2YFSQdksmTDrEgEhUi4vL5Vt35tcAw80+xsSQhBehogMl5TKfPkBwhTiKeGdF0MopfJC2YwQASGSIZIdFocKaH4IVoi6d5nF2DOGNpx0jRAB2skQyQ7nCX09HkIswDBCeEJk/HDGiC+A+UM3gJCFGBPaKZz8AhCqEPWKSphxTwigAOVyYBkiQizIkNvVAMIW4jFhncIujQn/RwimpIQgLCFyVQDlEX1iNUwwhSJE3b8cEdZJJhD42sMirEmdwRBKQBkimcAMTnmhX9AvAhdiTEin/CIE46qBimGhciAE4QjxP0JKJrAAQizAMEpYQqTzI8RFGD+kT1AykwmQCSiMH85gQiUUIeoJNzAhIQRTWIM444kQhJMhUi5TGpEhroeqISAh0vFnsPgWqBwCFyJHfpEhLiMmBJM+wbgyJXOQcP4hLOGSEAQiRLbszUEWMOsXZIcTbnhIhpUhMn6IEOEtsszmMpMh2aEjvEOIlcPSirD7hTwQR9oPhpyHGaYQ2bI3gwmVGb7vUsnlJ/vWpSQeIUCESIZIybyKY8/aFfkhxK2ICeWE7EtChuh+hoj8EGI5ON5pjoQQzOFC3xgV5MeVsQiRcplyORghIj9AiA3CobCzyqHtchn5QStC5Ja9+S8hNP+gTDT2f5AfkCEixJBIFjI/Yg5WCTEijGNemIlEfhCwENmrSna4IR7ygNh2LBH5gfMZItnhDLbsFZBsOXtg9rJfPi5I8cXMtraNDMdigUdCZEJlBl/qt1IcZVI8MrNx5hT5gc9CZEKFknljpmhYsA6u9Nd9/nD29P9ruGYy/+J3iAKA25Q+D1G37CFDskMAhGiYUEGIAAhxSkz4pnDLHkDgQmSGeUZCCAAomWFCSggA3Kf0zOjr+4+vhG+MbNn7QBgAAs0QMxmy/nAGEyoAgZfMCBEhAiBEJSJ0UzgUFiBwIZ4SuikpIQDwg1KTKmzZKwSQLXsA4WaIelcGMpzA+CGAR5Q57YYJFcrloNAkQPp9bCbDRdLukZmc6Si/vue09HCFGBO2KUyo+CnAXH7H+jPa8F34lv2Z60yKN0QvPCH+R9gomT2SX6TZ32khC9yVQ5XicSbFAVENS4gRYUOIDgswLmR/3Yr7cz/7+w1SdJdOiQ7Flr08eMwwu1D6dgulb1Pj3+dZ37inBTzPENmyN0dCCKyS3+LER9e0txria/ZCiAGUzJTLlMs2ZX+x2Tzx0QZdGZvkQi3/hUiGOINDYZuTX2T2n/hoGnnPCNFzIbJljwyxCQHGpr6JDwBK5qrJyqGEKFRW+rYx8QFQXog6aI0QJ1AKlZOfTRMfPDBhrwyRJzdCLJP9xcbOiY86QYYIMSieCMEb+UXGvYkP+geUFiJb9mYEP6HCxMdaWINIhkjJ7HnpW8z+6AurkUvHWIEQgBBjwjXB5w6vEx/xggA5/3J7EkLguRB1fAg87PDatmcmvImPumD8MIAMkRLJw3I5k2E/+3FHk1YK44cOs+0VAghxhheHwmppjAwrfliyfzkMIR4Tqim+jB+e0ZSVkxACMkSE6CbsS68exg8DEWJEqMa8eHSZEBli9TB+6LsQdQEueJQdapuylKbivsHNe2FkiGSH/pVEn2jKykkIQRhCZEJlRkq5DJ4/LBHiBphQ8ahk1oXYZP0Vw6VSCDHETu/DGCLZIeUylBGiZhMMvnuSHSqMHwKUzBAprfwql/ODG6BaqKICESJfnhk+3LJHuVwPh9xZHoYQmWGekXjwGdidUh8XhMB9Np12Q8k8IyVDhDX0syzxts6Jt8ImieIZlcfm7Tj/4ZIyPl3Sh2Uh+a+F/z3oAyo6GxrglX4+6ThZJ/ng8gfI2lJk+IOmrLefZK/ePlJU6UX6ymUXt/BZRirIX/rrUQiifLemYRgTme8clMuwCZHXY/bdOd/mGtKFe2kiY9fkTH5VxFnh/Yrw5XPJIvTEx5Pj320ICPgjRMrlZqUo4viu4kgXbiWMHf1+HWo/OisIUhakP+jndH4v9zohRvTtKU4fCqvZPu3ZLHn2J/H3Wf59fcnnHMsxE+PQ1Q90QIm1FakHX06AJqqQu0yMf7PXnYvDbp01WcVfwy6VSZD+/ew4niE+G4ZAoB3GQweuZI2dFV8gEeFf2nKMzK6dOCxD2hJsEeP1NpNNNpbMZBOUywBV90OZbHq0+VrjA75EG3H9lj0ebmCbGH9nUvym1YsTQvyPdpuVzIQAoHK+qBitWg62SogR7eWNEBOaECxFMsQfmRR/2JItUjJvwIPtSmS4YDtntmSLb4TIlj2/sivdPTCkKcGRbLHVscUDyuUgsqtLMzl4AMB2ZGyxtZnoZUIkQ5zhw6GweZbYQ4rgCOKg5zZK6GVCZMuefxlifkFWzzCmCG6V0F8a/Z4s/kb2Bn5TNk8l0vHxc+mT97M+iWlrsJ1h9l0cNC5EtnnNIScHH4XwQXW8Js5eXxEkWIqcpDOo+4ixgyW1O6gQA8qERf5DfQBc0/RgIVLVPNY9A40QV/MU6DDBlTyJaX6wkG7dUlwUIlv2ZgQ7+aBHNZEpQnBSJEOkZF7FDTGA0KS4KMSYWE+zpFHgnz+/LwMgGClOhWjzGWUtkBCCMQ+EACyX4re6MkTKZcrlRVjEDbbTl/tbEGK9/CIEY7hTB1yRYr+Kv6h4DekxcSUzWlKSwO7VxbIKIzIseq8TueVvtO/Y/zs6P0JEiHvJLzGTNasbv4w6ARBnr09mstCYDLxaZJLlaJ/dLJ1CY70SzzEvWUA/EIZxn3g0rDxYhkhwrxvkVI5ycMEFYqy2bbJ26ZX9wwfaOHR6skMyxC0elmayn7a373WaksXoriDZLsnypuqIM59d7SVEw9hGkSdCMF2GReYyz3nVF66rGM8N2yWr5GvZk/8R4vIsAMgOF6n1knUVLVKsjlJLcXIhcigsJfMi9IkZqZa3tcIe8mof6GUOlyVDhFWcEYIp35v6h1S8PJSrK513GvZBiEuygdADoOOH9IkZw4b/vUtCXgkiw5229h2wh/nNEzolCqZPCKaMmu4TOlbJzHNFfXmXCZYDMgFYwmdC0Hy5bMm/6yNbZ4kHhqUVi+ViN/DPH/OQnKOVTC3LEuXfZcVDNcTbrrUWIbK8Yp7QHxAXdIH2ymUbZOwpX7cVIkCeHUpmyOzyjLbPg+TUpYazRBEi96gsBI6nKFiSobH8puH+zaTKW4J8QOjTs0/zT0ktuEYCIVafJXYpmckQyQ53J2n7DdR9KXugXCDE3YhCW5upW5ximn4O7pPxk/667zdCDDxL1K1NZIdvszNmeD2WIkLcjU8BfdYfhqVGiyBDv/m8TogR8XnDWQhlM6Uy5XKgyLDYGUKsKK32RIYiwm80s70ZIifZN58lihCZyVrOxa5HBzkkw66WyvCWkUWzuyQrDVeBIkTWOi0nvwTINxkeGsYN12HToQoIsWYpLhMirOarT2OJKsNHvmj2l8sKp5Y3XDYjxM3c+fAhCjLkMI81MuQ8zKDoLiY8CHEze11raIkMu8hwK5hdDrxsRojbl85OngKDDJ0tlwXG9xsum5ll3qF0du3w2Oz99rMfz4YJlG3LZdu+C39olmbLZhEiZ65tx3gMzgUpynhh9pKZ5DuazelyOaFZmi2bKZnLSdHa8lkX8z4bDnrdhRe9E9kq9PixlOapndOiEAn47lL8YdtEi6T9mhWyrKZEuWzxe+OyqYYzRIRYDploeWx7naKWx1dkhXtxa/F7uzGM8zfxPTpDiPszLk9FSE1v8yuI8LeZHN/FxEk5bDgZe13ZLDK8ppmaKZs7+uV6JR5786KZxk2ds5U6RihLBfqEvBIGNo4fLmn3R8PJRHUie9hPciFKlhERk8qQMSkZ+0mqkKOm86daEtNO1T7Ejlw4qp+dRo3wocPTp3aS7PVkJotsZTYz2dDpuyq9Y/017VIfks1fuvJmdcnXHVKsjfNciFeGY+QhPI5c27tcOK2IB2X1XOfrENkiBKExdPEgBynvs1fPTCZamH2ultNciCmxgNCyAZfffCZFqeqOEGOlRJ1CKv7XsHQDwskOB758GC2j5TDjC77D+1HcukfZDGSHbmaLL4WM8YbmrUaIT4QDAskOUx8/mIpRZs1ljDGlqfcTYkI4gOzQCzHKd/mE73SJ2BX/CztWwHOcWndYBdl3WtYt9mn63TNE4Z6QgKcEuSdYJ4+GNH85ITKOCN6Wyi5s0atRiiQ7ZIgAY2TjfuizryJFVpLsIkSdfUsJC3gog6DR7HhgWMS9U4ZIlgi+cWPzeYcNS1HiwNmK62K0+Bt6osYzoQEPkGrnJNSxw1Vk33H5fnNizjYZoj5FeKKCF6UyMlzKJSHYvmQWuNgGfCiVE8KwtHSWuBCbHYQ4JDTgeKnMWNl6SHq2FaKWGUgRXOWcUnljlijfb2K0ZYbIEwRc5ZJZ5a1hRcm2QtRxhpQQgUtfcBZg78QDIdg+QxQYhwFXkIf3gDDsVDaTIe4iRB1nIEsE25GxMMYNy5EQgu0zRLJEcAHGDctD3HYU4j1ZIljMtVYyUI4/hGAHIWoZQpYINjLUu0SADLGxDJGxRLD1i8wWNGheiAqdD2ySYY9JFGhNiDpFnxAyaBlmlCmZrcgQyRLBBhn2fL1GtCU4BqysEHVpAzsBoE0ZktFAbX3soMQfkhlnntCADME3RjsLsXA3AwAydJ+IEOwhRJViQukMyBAhesb/Dvb4w5TOgAzd55gQTElKC1FL53NiCHWULsiwMZhl3rdkLkiR3QKADB3l9f3HQ0rmKakkeQf7/i16IOeQeEIF3Bt2oDTJGSGYexCbdxX9ZZeaepN+Q1nkoAZWLzTLKSGY8kv+46CKv6kwnsiTHcowQIZkiC2TVCZElWIq5Q5ShB3IZ5KHhKJZXt9/FBkeEompv6oVov6lUofzpIdtkL5ywmXyrfGZEMxnh5ULUaV4jxRhAzJeeMIhDa1lhxHl8puHcz1CVCkOkSKsKJEZL2yfPiGYY3oda6fmJ5EE/o54gz6Fz8kKW88OZdzwt2H8sJjAdWrNEMkUYYFrSmRr+IIM55i7m/qg7n8NKQaNCPCEi6CsyQ6j7McFkZjjqVEhFqTIkpzAskKVIVvw7OEb2eH6DLHT5L+cPaFkJ8sjjeI146VXiNC67DDW7x4U+qoM5TSeIRYyRfmSHBkutvERyf4vdayQ9rVLhpKAMLn5lu+Lv3HQ9DuQbX5q5SHt4VXZcaIHfYB9iAwjwrC+XG5FiAUxykTLwDCu6Hp5LFvvWE5jb3Yos8oswl5eLqfWCFGlKFlijxLaOaQjDbQ8TgiHtTKUMftvRGK7cnnsJIsa7yr78ZV2shrJ5m+z1w1nFjohQyYwV3O0LEPsWNiIMt7BuYqIEMp/j0SCz4Zxw1XcyzDPsv/hnU3vUmcnTzRbvODphgihlAwfkeFaHlY6yOKGjbSE7tN+jSOlxHdE6JwM5Tvzgwpr/UM+69MfnBNioZFjFWNMW9aOZOi3HNjqpAwZM9yO63VbSTsONbgIkfVU9SAC/M6MsbMyPNPvBjLczNG6JWIdBxtfSujPZIyVlMUyPjikLHZahleG1RlbP/g3ncXZcbgjiBBl4oVFp9sj4rsnG/RChJFmhSQG29Pb1O87nnQMEWOfkmEluQTvCYUXMvyiWSH9fXuSrP/3Nv2fOp51FJHiJ7LGaSb4oB2BktiP/i3ZoOw8YRZ5dwbbTBZ2PO04hyrFkOQoM8RSDjxQDnspQlZalCfNvhNH2/wfOwF0pkPtSJ/0Z+SZAJ/IAr3tu/Iwv0CEzWSHQQhxSSfragc7dkiQLyrAJ5XgCAF62z+lP/bNZCVFRESayw6DFOKKDDKX5H/aCdt6IufiS7PXH+QXTP+T/naqPxkfbCk7RIibn9TFl9FOm3O4Q+cdmflzH58WBPjCKdOVVwG2zsDmD9tj7T9kgZZkhwgRXM3m84dUntHv8nCCcOjtOsH4jpiB5aVkVzPziGwKdiAps9oCIYJtAmQsDarguswfQojQpgQl48vXi8ZEBCpiWHYtLmOI0JYEP5MFQg3IROVR2ZUZZIjQlAj7hlOKoH5u91mmRoYIdWeDIkKug4AmGOmd76UhQ4S6RMj1D9A0l/v+BQgRECH4wE0Vh5pQMgMiBNdJs9dJFVtcyRBhHxEeqgi/EA1okUFV+/0RIpSVoWSDclgpkyXgfKlMyQxlRdhVEcZEA3wplXMOiCnsIMOr7MczMgRLOK/6aDxKZtg2K5Qb3thZArZwXceReZTMsEmGfcNYIdjFVjfokSFClSI8VBH2iQZYhJTI53X95QgRKJHBJc7rvFIDIcKiDOPsxw9KZLCQy7qv2GUMEYoy7GtmCGAb95kMz+v+R1h2A7kMvyFDsBSZTR408Q+RIYLIUETYJxJgITJeKIuv0yb+MTJEZIgMwWYZ9pqSIUJEhsgQbOay6fvKKZmRIYCNyAk2w6b/UTJEZAhgG8M2ZIgQw5Qhu0/AdhkO2vrHKZnDkqGIkKU1gAwRYvAylLuQfxAJQIaUzKHLsEtmCBYjM8mXNrwRMkT/ZSh7kh8NBzWAvTLs1XlgAxkiFOHUGrC2TLZJhgKn3fidHcpteGdEAmyUoQ1jhpTM4ciwq6Uyx3gBMqRkplRGhmAhN7bKkJLZ3+zwyjBuCPYxaGsHCiVz2KXyM5EAi5BJk0vbZUiG6G+pDGCTDHtNn1pTFsYQ/coOv1Aqg0WIBI9ckSEls18ylAmU34aJFLCDoZbJLy69aUpmf+AyebAFEeGNi2+cDNGP7DDS7BCgTcaXyNd9VWidMIboB0ykQNuIBI9cliElsx/ZYZz9iIkEtMh1JsIrHz4IQnSfr4QAWiLVEnnkyweiZHY7O+ySHUJLyKTJiU8yJEN0nwtCAC1khQPXxwpXwSyzu9lhZJhZhuazwmvX1haSIZIdAlTJ+Ih/X7NCMkQ/MsS/hoXYUC8vmhHehPKByRDdlGEfGULNDI2DW+8QYph8JgRQE4lmhUmIH56S2b3sMDJMpkD1pJoR3occBDJE9+DSKKhahNcuHN6KEGEZzC4DIkSIoDtTIiIBiBAhAtv0oDxJ9roNfYwQIfoFs8uwK0MV4YhQbIZZZnfKZVl3+JdIwJZl8a2ZXAj/QjjIEH2E2WVYh4hPyuHvoa4hRIhhcUoIYAkiwQcmSRBiaMSEAAqZ4JP8pCSuFsYQHYDxw+CRCZFEM0HKYTJEskNCEKQAJQtMyAIRIszTJQTekqoAf6kERwgQIcJ6mFBxH5Hdi4pPJJhS/iJEIENsSj5Nlbb/W/i9F/398a9ZEI0QoUL0uC8Og12PSGhoJmvwEBAgRI+JCcFarrPXDeNugBDD4JgQrCxXB2SEgBDJEJGhMT2yQqgaFmZbzuv7j69EYY40e50gQ6iDA0JgtQzJDt9yjgwBIVIuw2TyhDFDQIiBwoLsea4JASDEcGFB9gwOOwWEGCp6oRQLsmc8EAJAiGSHMCEhBIAQw4XxwxmcAAMIkQwRyA4BIQaOnpCNEGd8JwSAEMMlJgRTOEILECLlMij3hAAQYtgwoTLjiRAAQqRkBjJEQIhhowuyYQLLbQAhkh2Cwu4UQIiBw/gh5TIgRFAomSekLLcBhBgwesNeRCTGJIQAECLZIUxg/BAQYuAwfkiGCAgRyBDnZchyG0CIEBMCymVAiMHDDXuUy4AQgexwEZbbAEIEc0wIxrAYGxAikCEqnG4DrdEhBO2jC7J/E4msQ/77SZ8EMkSyQ6BcBoQIAguyKZcBIYLCgmwyRLAAxmtaRm/Y+0skxsttjggDkCGSHQLZISBEMEyo5LBdDxAiMKFiJncvJ4QBECJQMrN3GRAi6A17h0SCchkQIjB+SIYICBGmcKDD5O7llDAAQgQyRMplQIigC7IjIkG5DAgRyA7zchkhAkKE4NcfigjP6QZgE+8IQWuEtv7wRSUoY4YJEylgIxzu0BKv7z++BiLAJxUg96QAGSIslWHscRmcCzChpQEhQkjl8igvgxEgIEQoi6sTKqmZHNOVZ4EvNCUgRAglQ0wXyuCUpgOECJWhN+xFlr694kTIPQIEhAh1E1v2foolMDPBgBChUdo+0KFYAic0BwBCDClDHC1IkIkQAIRoDXVPqKRmfkcIAgRAiPZR04Ls1DATDIAQA4UtcQA1wV7m5rNEuZR+13tUcgHeI0CA+vh/AQYAgbfXdkxRl9MAAAAASUVORK5CYII=" alt="Grand Prix de Vendas" class="w-8 h-8 object-contain">
+        <span class="text-sm font-bold text-stone-900">Radar Automotivo</span>
       </div>
-      <input id="busca" type="text" aria-label="Buscar notícias por palavra-chave" placeholder="Buscar por palavra-chave (ex: BYD, IPVA, campanha)..."
-        class="flex-1 min-w-[220px] max-w-md rounded-lg border border-stone-300 bg-stone-50 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white">
-      <p class="text-xs text-stone-500 whitespace-nowrap">Atualizado em 22/06/2026 17:32</p>
+      <input id="busca" type="text" aria-label="Buscar notícias por palavra-chave" placeholder="Buscar notícia..."
+        class="w-full max-w-[260px] rounded-lg border border-stone-300 bg-stone-50 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white">
     </div>
-  </header>
+  </div>
 
-  <main class="max-w-6xl mx-auto px-6 py-8 space-y-6">
-
-    <div class="grid md:grid-cols-3 gap-5" id="stat-row"></div>
-
-    <div class="grid md:grid-cols-3 gap-5">
-      <div id="widget-resumo-dia" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6"></div>
-      <div id="widget-top-categorias" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6"></div>
-      <div id="widget-top-fontes" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6"></div>
+  <section class="relative flex items-center" style="background: linear-gradient(120deg, #0c0c0c 0%, #7f1d1d 55%, #1e3a8a 100%); min-height: 360px;">
+    <div class="relative max-w-6xl mx-auto px-6 py-16 w-full">
+      <p class="text-xs font-bold uppercase tracking-widest text-white/80 mb-4">GP de Vendas · Automotivo</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight mb-3">Pílula de conhecimento</h1>
+      <p class="text-lg md:text-xl text-white/90 max-w-xl">Ganhe velocidade no seu dia.</p>
+      <p class="text-xs text-white/60 mt-8">Atualizado em 22/06/2026 18:05</p>
     </div>
+  </section>
 
-    <section id="lista-completa" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6">
-      <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
-        <h2 class="text-base font-bold text-stone-900">Últimas notícias</h2>
-        <p id="contador" class="text-xs text-stone-500"></p>
-      </div>
-      <p class="text-[11px] font-semibold uppercase tracking-wide text-stone-400 mb-1.5">Filtrar por categoria (clique pra ativar/desativar)</p>
-      <div id="filtros" class="flex flex-wrap gap-2 mb-3"></div>
-      <p class="text-[11px] font-semibold uppercase tracking-wide text-stone-400 mb-1.5">Filtrar por dia</p>
-      <div id="filtros-dia" class="flex flex-wrap gap-2 mb-4"></div>
-      <div id="lista-itens"></div>
-    </section>
-
-  </main>
+  <main class="max-w-6xl mx-auto px-6 py-12 space-y-12" id="secoes"></main>
 
   <footer class="max-w-6xl mx-auto px-6 pb-12">
     <p class="text-xs text-stone-500 border-t border-stone-200 pt-6">Gerado automaticamente pela skill /curadoria-automotiva a partir de curadoria/AAAA-MM-DD.md.</p>
@@ -59,14 +42,7 @@
   <script id="dados-curadoria" type="application/json">[{"data":"2026-06-22","categorias":{"Compra e venda / mercado":["**Ranking de vendas até 14/06: VW Polo lidera** — Diário de Pernambuco. Volkswagen Polo no topo com 4.333 unidades, seguido por VW T-Cross (3.858), Hyundai HB20 (3.518), Fiat Argo (3.296) e VW Tera (3.140). Volkswagen ocupa 3 das 5 primeiras posições. [Diário de Pernambuco](https://diariodepernambuco.com.br/dpmais/5-carros-mais-vendidos-do-brasil-em-junho-de-2026/)","**Projeção 2026 mantém entre 2,4 e 2,6 milhões de unidades** — Chaves na Mão / Anfavea. Elétricos e híbridos podem superar 18% do total vendido no ano. Eletrificação, conectividade e avanço de marcas chinesas continuam pressionando montadoras tradicionais. [Chaves na Mão](https://www.chavesnamao.com.br/blog/noticias-automotivas/setor-automotivo-2026-tendencias-brasil/) / [Agência Brasil](https://agenciabrasil.ebc.com.br/economia/noticia/2026-01/anfavea-projeta-crescimento-de-37-na-producao-de-veiculos-para-2026)"],"Marketing e publicidade (geral)":["**Verba digital pode passar de 50% do bolo publicitário brasileiro em 2026** — Meio \u0026 Mensagem. Tendências de mídia apontam aumento da fatia digital no orçamento total de publicidade no país. [Meio \u0026 Mensagem](https://www.meioemensagem.com.br/midia/quais-sao-as-principais-tendencias-de-midia-para-2026)","**IA se consolida como infraestrutura do marketing, não só feature extra** — Creative Hut. 2026 marca fase de menos produção dispersa e mais estratégia orientada a receita, com IA operacional embutida no processo. [Creative Hut](https://creativehut.com.br/marketing-digital/5-revolucoes-do-marketing-digital-em-2026-segundo-especialistas/)","**Web Summit Rio e evento de performance/automação movimentam junho** — Web Summit Rio aconteceu de 8 a 11/06 no Rio; evento de marketing digital, performance, automação e social ads em São Paulo nos dias 18 e 19/06."],"Marketing automotivo / concessionária":["**Jornada do cliente passa de \"quebrada\" pra orquestrada** — AutoForce. Discurso do setor migra de lead → loja → pós-venda isolados pra um fluxo único de app + CRM + assistência + garantia + serviços conectados. Reforça a tese do Fígital (físico + digital integrados, não em paralelo). [AutoForce](https://blog.autoforce.com/cenario-automotivo-2026/)","**Foco virando LTV, não venda única** — Intelia. Receita total do cliente no ciclo de vida (compra + pós-venda + assinatura + serviço) ganha peso sobre o tíquete da venda isolada. [Intelia](https://blog.intelia.com.br/desafios-das-concessionarias-para-2026/)","**IA dentro do CRM da concessionária sugere troca, revisão e peça** — Motorleads. Agentes de IA atuando direto na base de dados do cliente, além da pré-venda (papel que o Rubinho já cobre na ponta de agendamento). [Motorleads](https://www.motorleads.co/tendencias-do-marketing-automotivo-para-2026-o-que-sua-empresa-precisa-aplicar-agora-para-sair-na-frente-no-ano-que-vem)","**UGC e microinfluenciador regional pesando na decisão de compra** — ilia.digital. Vídeo real de vendedor/cliente ganha peso sobre peça publicitária tradicional. [ilia.digital](https://ilia.digital/tendencias-2026-no-setor-automotivo/)"],"Marketing — Brasil (Propmark, 22/06)":["**Brasil ganha 5 Pratas e 3 Bronzes no 1º dia de Cannes Lions** — Propmark, 22/06. Publicis, LePub, Droga5, AlmapBBDO e GUT entre os premiados. [Propmark](https://propmark.com.br/)","**Brasil sobe pra 151 chances de Leão em Cannes** — Propmark, 22/06. Shortlists de Brand Experience \u0026 Activation e Creative Data divulgadas, Africa lidera com 5 chances. [Propmark](https://propmark.com.br/)","**iFood Ads usa a Copa do Mundo pra aproximar marca de torcedor** — Propmark, 22/06. Plataforma combina patrocínio e experiência ao vivo. [Propmark](https://propmark.com.br/)","**Ronaldinho estrela campanhas de Itaipava, Uber, Renner, Rider e Inter pra Copa 2026** — Propmark, 22/06. Ex-jogador vira ativo estratégico multimarca no período de Copa. [Propmark](https://propmark.com.br/)"],"Marketing — geral (Mundo do Marketing, 19/06)":["**Duolingo lança plataforma própria de anúncio nativo** — Mundo do Marketing, 19/06. \"Duolingo Ads\" mira os 128M+ usuários ativos (maioria Gen Z), 96% de completion rate em rewarded video, CTR acima de 3%. [Mundo do Marketing](https://mundodomarketing.com.br/duolingo-transforma-publicidade-em-entretenimento-com-nova-plataforma-de-anuncios)"],"Automotivo + varejo (AutoData, 19/06)":["**Anfavea pede manutenção da recomposição tarifária** — AutoData, 19/06. BYD fazendo lobby por benefício de importação, entidade defende manter a régua atual. [AutoData](https://www.autodata.com.br/)","**BNDES inicia liberação do Move Brasil Táxis e Aplicativos** — AutoData, 19/06. Dinheiro do programa de R$30 bi começa a sair de fato (já coberto em edição anterior, agora com desembolso confirmado). [AutoData](https://www.autodata.com.br/)","**Nissan traz eletrificado de volta com X-Trail e-Power** — AutoData, 19/06. Reforço de portfólio eletrificado da marca no Brasil. [AutoData](https://www.autodata.com.br/)","**Voge projeta até 3 lançamentos por ano no Brasil** — AutoData, 19/06. Fabricante chinesa de motos planeja expansão agressiva de portfólio. [AutoData](https://www.autodata.com.br/)"],"Destaques do dia":["VW Polo lidera o ranking de vendas no Brasil até 14/06, com a Volkswagen ocupando 3 das 5 primeiras posições.","Cannes Lions 2026: Brasil já soma 151 chances de Leão e 8 metais no 1º dia.","BNDES começou a liberar de fato o dinheiro do Move Brasil Táxis e Aplicativos.","Setor automotivo migra de jornada fragmentada pra fluxo orquestrado (app + CRM + assistência), reforçando a tese do Fígital."]}},{"data":"2026-06-16","categorias":{"Compra e venda / mercado":["**Vendas no 1º quadrimestre batem maior patamar desde 2013** — Agência Brasil / SpeedRacing. 1,734 milhão de unidades vendidas de janeiro a abril/2026. Projeção do ano: até 2,6 milhões, com elétricos podendo chegar a 18% do total. Programa Carro Sustentável puxou alta de 31,9% no segmento. [Agência Brasil](https://agenciabrasil.ebc.com.br/economia/noticia/2026-05/venda-de-carros-novos-no-pais-em-2026-atinge-maior-patamar-desde-2013) / [SpeedRacing](https://www.speedracing.com.br/mercado-automotivo-brasil-projecoes-2026-segundo-semestre)","**MOVE BRASIL TÁXI e APLICATIVOS: pedidos abrem quinta-feira (19/06)** — Senado / Gov.br. Governo liberou R$30 bilhões pra motoristas de app e taxistas comprarem carro novo. Veículos até R$150k, flex, híbrido ou elétrico. Elegíveis: motoristas com 12 meses de cadastro ativo e 100+ corridas na mesma plataforma. [Senado](https://www12.senado.leg.br/noticias/materias/2026/05/26/mp-libera-r-30-bilhoes-para-compra-de-taxis-e-carros-de-aplicativos) / [Gov.br](https://www.gov.br/mdic/pt-br/assuntos/noticias/2026/maio/governo-do-brasil-cria-programa-com-ate-r-30-bi-em-credito-para-motoristas-de-aplicativos-e-taxistas-financiarem-carro-novo)"],"Impostos e legislação (Brasil)":["**Imposto já é 48% do preço de um carro zero — e pode piorar** — O Tempo, 06/05. Análise mostra que quase metade do preço de um zero km são tributos (IPI, ICMS, PIS, Cofins, etc.). CBS e IBS estão em fase de testes em 2026 com alíquotas simbólicas, mas entram em vigor pleno a partir de 2027. [O Tempo](https://www.otempo.com.br/autotempo/2026/5/6/carro-zero-km-no-brasil-imposto-bate-48-e-reforma-tributaria-pode-piorar-a-conta)","**PCD 2026: isenções garantidas, mudanças só em 2027** — Terra / AutoPapo. Reforma tributária sancionada não altera isenções PCD este ano. IPI segue para veículos até R$200k; ICMS com isenção total até R$70k e parcial de R$70k a R$120k. Só em 2027 entra o Imposto Seletivo substituindo o IPI. [Terra](https://www.terra.com.br/mobilidade/reforma-tributaria-e-sancionada-mas-isencoes-para-pcd-seguem-iguais-em-2026,a9f8f5183b641128d25fc9fba8add16d45uk8mmy.html) / [AutoPapo](https://autopapo.com.br/curta/vai-comprar-carro-pcd-veja-quais-regras-devem-mudar-nesse-ano-e-quais-ficam-para-2027/)"],"Notícias gerais do setor":["**ANFAVEA VISIONS: 1º fórum estratégico da indústria automotiva brasileira** — AutoShow, 08/06. Evento aconteceu dias 9-10/06 no Hotel Unique (SP), com executivos discutindo futuro da mobilidade, tecnologia e produção nacional. Faz parte das comemorações dos 70 anos da ANFAVEA. [AutoShow](https://www.autoshow.com.br/noticias/2026/06/08/anfavea-visions-tudo-sobre-o-evento-da-the-exp-co.html) / [ANFAVEA](https://anfavea.com.br/site/press-releases-3/)"],"Novidades e lançamentos — Brasil":["**Haval H6 flex nacional chega às concessionárias por R$129.990** — AutoPapo / Carros na Web. GWM lança o H6 com motor flex produzido em Iracemápolis (SP) — primeira versão do SUV desenvolvida pra rodar em etanol puro no Brasil. [AutoPapo](https://autopapo.com.br/noticia/lancamentos-carros-2026/) / [Carros na Web](https://www.carrosnaweb.com.br/proxlancamentos.asp)"],"Novidades e lançamentos — Internacional":["**Tata Sierra EV: clássico indiano volta como elétrico** — Autocar India / CarWale. Lançamento esperado pra final de junho na Índia. Design retrô com identidade do original dos anos 90, múltiplas opções de bateria. [Autocar India](https://www.autocarindia.com/car-news/upcoming-car-launches-in-june-2026-439838) / [CarWale](https://www.carwale.com/news/new-car-launches-and-unveils-in-india-in-june-2026/)"],"Elétricos, híbridos e tendências":["**BYD é a marca mais vendida no varejo brasileiro em abril/2026** — BYD Brasil. Marco histórico: primeira vez que uma montadora 100% eletrificada lidera o varejo nacional. 56 mil unidades no acumulado de jan-abr (+86% vs mesmo período de 2025). [BYD Brasil](https://www.byd.com/br/byd-lider-varejo-automotivo-brasil-2026) / [CNN Brasil](https://www.cnnbrasil.com.br/auto/fiat-mantem-lideranca-e-byd-cresce-no-brasil-no-primeiro-trimestre-de-2026/)","**IEA Global EV Outlook 2026: elétricos já são 25% das vendas mundiais** — IEA. EVs cresceram 20% globalmente em 2025, passando de 20 milhões de unidades. China: 55% das vendas são EVs. Europa: 28%. EUA: apenas 10% e desacelerando. Preço de baterias caiu 8% em 1 ano. Brasil destaque de crescimento em mercados emergentes. [IEA](https://www.iea.org/reports/global-ev-outlook-2026) / [IEA Executive Summary](https://www.iea.org/reports/global-ev-outlook-2026/executive-summary)","**EUA vs Brasil: enquanto americanos freiam EVs, Brasil bate recorde** — Rest of World / Bloomberg. EUA projetam queda de 20% nas vendas de elétricos (1,5M → 1,2M) com corte de incentivos e tensões comerciais. No Brasil, elétricos cresceram 173% no mesmo período. [Rest of World](https://restofworld.org/2026/iea-global-ev-outlook-us-sales-drop/)"],"Destaques do dia":["Pedidos do MOVE BRASIL TÁXI e APLICATIVOS abrem em 19/06 — R$30 bilhões pra motoristas de app e taxistas comprarem carro novo.","BYD lidera o varejo automotivo brasileiro em abril/2026, primeira vez na história com uma marca de elétricos no topo.","IEA confirma: EVs já são 25% das vendas globais — Brasil é destaque de crescimento em mercados emergentes."]}},{"data":"2026-06-15","categorias":{"Compra e venda / mercado":["**Maio foi o 2º melhor mês de vendas desde 2011** — Fenabrave, 15/06. 214.300 automóveis vendidos em maio, 27,9% a mais que em maio/2025. Acumulado do ano já sobe 18,2%. [Fenabrave](https://www.fenabrave.org.br/Portal/conteudo/emplacamentos) / [evdrops](https://evdrops.com.br/emplacamentos-em-maio-2026/)","**Pesados em compasso de espera** — Fenabrave, 15/06. Vendas de caminhões, ônibus e implementos caíram em maio — mercado esperando a segunda fase do programa MOVE BRASIL (R$ 21,2 bi em crédito) antes de fechar compra. [Fenabrave](https://www.fenabrave.org.br/Portal/conteudo/emplacamentos)"],"Impostos e legislação (Brasil)":["**Lista oficial do \"Carro Sustentável\" com IPI zero até dez/2026** — Agência Gov / Turbo Notícias. Governo divulgou os modelos (Chevrolet, Renault, VW, Hyundai, Fiat) que entram na categoria de IPI zero dentro do programa Mover, que substitui o Rota 2030 com regras ambientais mais rígidas. [Agência Gov](https://agenciagov.ebc.com.br/noticias/202507/governo-lula-zera-ipi-para-carros-nacionais-mais-sustentaveis-seguros-economicos) / [Turbo Notícias](https://turbonoticias.com.br/carros-com-ipi-zero-lista-oficial-programa-carro-sustentavel/)","**Importação de elétricos e híbridos vai ficar mais cara** — CNN Brasil / Motor Show. Tarifa de importação de EVs sobe de 18% pra 35% em julho/2026 (híbridos também chegam a 35%). É o motivo principal das chinesas (BYD, GWM) investirem em fábrica própria no Brasil. [CNN Brasil](https://www.cnnbrasil.com.br/auto/comprar-um-carro-eletrico-ou-hibrido-vai-ficar-mais-caro-em-2026-entenda/) / [Motor Show](https://motorshow.com.br/impostos-importacao-carros-eletricos-2026)","**IPVA 2026: 16 estados + DF isentam elétricos/híbridos** — AutoPapo / CanalVE. SP isenta BEVs 100%; RJ cobra só 0,5% pra elétricos e 1,5% pra híbridos. Outros estados ainda cobram alíquota igual à de carro a combustão. [AutoPapo](https://autopapo.com.br/noticia/isencao-ipva-2026-estados-carros-eletricos-hibridos/) / [CanalVE](https://canalve.com.br/ipva-2026-saiba-quais-estados-tem-isencao-carros-eletricos/)"],"Notícias gerais do setor":["**Anfavea projeta alta de 3,7% na produção em 2026** — Agência Brasil. Estimativa é de 2,741 milhões de unidades produzidas, com leves (autos + comerciais leves) crescendo 3,8%. Presidente Igor Calvet fala em \"otimismo contido\" pela imprevisibilidade do cenário. [Agência Brasil](https://agenciabrasil.ebc.com.br/economia/noticia/2026-01/anfavea-projeta-crescimento-de-37-na-producao-de-veiculos-para-2026)"],"Novidades e lançamentos — Brasil":["**Toyota Yaris Cross chega às concessionárias** — AutoPapo. Primeiro SUV compacto da Toyota no Brasil, fabricado na planta de Sorocaba (SP), já disponível desde fevereiro/2026. [AutoPapo](https://autopapo.com.br/noticia/carro-2026/)","**Onda chinesa de SUVs continua** — vrum.com.br / Auto+ TV. Changan CS55 chega pra disputar com o Chery Tiggo 5X; Chery CS75 mira o segmento do Haval H6 (GWM) e BYD Song Plus. [vrum](https://www.vrum.com.br/mercado/2026/05/7413345-alem-do-omoda-5-os-carros-chineses-que-estao-dominando-o-brasil.html) / [Auto+ TV](https://www.automaistv.com.br/novidades/os-novos-suvs-chineses-que-chegam-ao-brasil-ainda-em-2026/)","**Tendência do ano: SUVs, híbridos e picapes médias** — AutoPapo / CNN Brasil. Lançamentos de 2026 concentrados nesses três segmentos — Ram Dakota já está nas concessionárias como uma das estreias mais esperadas. [AutoPapo](https://autopapo.com.br/noticia/lancamentos-carros-2026/) / [CNN Brasil](https://www.cnnbrasil.com.br/auto/veja-cinco-novos-carros-que-serao-fabricados-no-brasil-ainda-em-2026/)"],"Novidades e lançamentos — Internacional":["**BMW X6 M60i abre pré-venda no Reino Unido** — Autocar. Motor V8 4.4 biturbo mild-hybrid com 523cv e 750Nm, lançamento esperado ainda em junho. [Autocar](https://www.autocar.co.uk/car-news/new-cars)","**Mercedes-Benz confirma S-Class facelift na Índia pra 15/06** — Autocar India. Estreia do facelift no mercado indiano nesta data. [Autocar India](https://www.autocarindia.com/car-news/upcoming-car-launches-in-june-2026-439838)","**Ford ressuscita o Escort RS** — Autocar, 09/06. Boreham revela o novo Escort RS de £300 mil, com linha de corte de 10.000rpm — edição limitada de alta performance. [Autocar](https://www.autocar.co.uk/car-news)"],"Elétricos, híbridos e tendências":["**Eletrificados batem recorde histórico em maio** — evdrops / Despachante DOK. 44.981 carros elétricos e híbridos emplacados (+170,3% vs maio/2025) — BEVs puros já passam de 20 mil unidades e se aproximam de 10% do mercado total. [evdrops](https://evdrops.com.br/emplacamentos-em-maio-2026/) / [Despachante DOK](https://www.despachantedok.com.br/blog/noticias/eletricos-e-hibridos-somam-44-981-vendas-em-maio-de-2026-veja-os-mais-vendidos-e-o-que-muda-para-quem-compra/)","**Chinesas consolidam posição no Brasil** — CNN Brasil / SpeedRacing. No 1º trimestre, BYD vendeu 37.637 unidades, GWM 15.915 e Caoa Chery 16.720 — BYD Dolphin Mini é o carro mais vendido no varejo do país. Fábrica da BYD na Bahia entra em produção plena em julho/2026. [CNN Brasil](https://www.cnnbrasil.com.br/auto/fiat-mantem-lideranca-e-byd-cresce-no-brasil-no-primeiro-trimestre-de-2026/) / [SpeedRacing](https://www.speedracing.com.br/consolidacao-das-marcas-chinesas-no-brasil-2026-byd-gwm-dongfeng-e-a-nova-ordem-do-mercado-automotivo)","**Leapmotor renova linha C-Series** — CnEVPost, 03/06. C10, C11 e C16 ganham motor BEV de até 230kW, lançamento marcado pra 16/06. [CnEVPost](https://cnevpost.com/2026/06/03/leapmotor-to-launch-updated-c-series-suvs-jun-16/)","**Xiaomi entra nos elétricos de autonomia estendida** — CnEVPost, 10/06. Aprovada pra produzir EREVs na fábrica de Pequim — primeiro modelo, o SUV \"Kunlun N3\" (mais de 5,3m), chega no 2º semestre/2026. [CnEVPost](https://cnevpost.com/2026/06/10/xiaomi-cleared-to-build-extended-range-evs/)"],"Destaques do dia":["Maio/2026 foi o 2º melhor mês de vendas de veículos desde 2011 no Brasil, com eletrificados batendo recorde histórico (+131,95% no total, +201% em BEVs).","Tarifa de importação de elétricos/híbridos sobe pra 35% em julho — pressiona preço dos importados bem na hora em que as chinesas avançam no mercado nacional.","Chinesas (BYD, GWM, Chery) seguem ganhando espaço — fábrica da BYD na Bahia entra em produção plena em julho/2026."]}}]</script>
   <script>
     var dados = JSON.parse(document.getElementById('dados-curadoria').textContent);
-    var statRowEl = document.getElementById('stat-row');
-    var resumoDiaEl = document.getElementById('widget-resumo-dia');
-    var topCategoriasEl = document.getElementById('widget-top-categorias');
-    var topFontesEl = document.getElementById('widget-top-fontes');
-    var listaItensEl = document.getElementById('lista-itens');
-    var filtrosEl = document.getElementById('filtros');
-    var filtrosDiaEl = document.getElementById('filtros-dia');
-    var contadorEl = document.getElementById('contador');
+    var secoesEl = document.getElementById('secoes');
     var buscaEl = document.getElementById('busca');
 
     var MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
@@ -109,237 +85,22 @@
       return 'bg-stone-100 text-stone-600';
     }
 
-    function corCategoriaSolida(cat) {
+    function extrairResumo(texto) {
+      var s = texto;
+      s = s.replace(/^\*\*[^*]+\*\*\s*/, '');
+      s = s.replace(/—\s*[^.]+\.\s*/, '');
+      s = s.replace(/\[[^\]]+\]\([^)]+\)/g, '');
+      s = s.trim();
+      return s.length > 150 ? s.slice(0, 150) + '…' : s;
+    }
+
+    function secaoDoItem(cat) {
       var c = cat.toLowerCase();
-      if (c.indexOf('destaque') !== -1) return 'bg-red-600';
-      if (c.indexOf('imposto') !== -1 || c.indexOf('legisla') !== -1) return 'bg-rose-500';
-      if (c.indexOf('elétric') !== -1 || c.indexOf('eletric') !== -1 || c.indexOf('híbrid') !== -1 || c.indexOf('hibrid') !== -1) return 'bg-emerald-500';
-      if (c.indexOf('lançamento') !== -1 || c.indexOf('lancamento') !== -1 || c.indexOf('novidade') !== -1) return 'bg-blue-500';
-      if (c.indexOf('campanha') !== -1) return 'bg-fuchsia-500';
-      if (c.indexOf('marketing') !== -1 || c.indexOf('publicidade') !== -1) return 'bg-purple-500';
-      if (c.indexOf('varejo') !== -1 || c.indexOf('concession') !== -1) return 'bg-orange-500';
-      if (c.indexOf('mercado') !== -1 || c.indexOf('compra') !== -1 || c.indexOf('venda') !== -1) return 'bg-sky-500';
-      return 'bg-stone-400';
+      if (c.indexOf('marketing') !== -1 || c.indexOf('publicidade') !== -1 || c.indexOf('campanha') !== -1) return 'Marketing';
+      return 'Automotivo';
     }
 
-    function categoriaCanonica(cat) {
-      var c = cat.toLowerCase();
-      if (c.indexOf('imposto') !== -1 || c.indexOf('legisla') !== -1) return 'Impostos e legislação';
-      if (c.indexOf('elétric') !== -1 || c.indexOf('eletric') !== -1 || c.indexOf('híbrid') !== -1 || c.indexOf('hibrid') !== -1) return 'Elétricos e híbridos';
-      if (c.indexOf('lançamento') !== -1 || c.indexOf('lancamento') !== -1 || c.indexOf('novidade') !== -1) return 'Lançamentos';
-      if (c.indexOf('campanha') !== -1) return 'Campanhas';
-      if (c.indexOf('marketing') !== -1 || c.indexOf('publicidade') !== -1) return 'Marketing e publicidade';
-      if (c.indexOf('varejo') !== -1 || c.indexOf('concession') !== -1) return 'Varejo e concessionária';
-      if (c.indexOf('mercado') !== -1 || c.indexOf('compra') !== -1 || c.indexOf('venda') !== -1) return 'Mercado e vendas';
-      return 'Notícias gerais';
-    }
-
-    // --- Stat row ---
-    function renderStatRow() {
-      if (dados.length === 0) return;
-      var recente = dados[0];
-      var categoriasHoje = Object.keys(recente.categorias || {}).filter(function (c) { return c !== 'Destaques do dia'; });
-      var totalHoje = 0;
-      categoriasHoje.forEach(function (c) { totalHoje += recente.categorias[c].length; });
-
-      var heroCard = document.createElement('div');
-      heroCard.className = 'rounded-2xl p-6 text-white shadow-sm bg-red-600';
-      var heroNum = document.createElement('p');
-      heroNum.className = 'text-3xl font-bold';
-      heroNum.textContent = totalHoje;
-      var heroLabel = document.createElement('p');
-      heroLabel.className = 'text-sm text-white/90 mt-1';
-      heroLabel.textContent = 'Notícias no digest de ' + formatarData(recente.data);
-      heroCard.appendChild(heroNum);
-      heroCard.appendChild(heroLabel);
-      statRowEl.appendChild(heroCard);
-
-      function statCard(numero, label) {
-        var card = document.createElement('div');
-        card.className = 'bg-white border border-stone-200 rounded-2xl shadow-sm p-6';
-        var num = document.createElement('p');
-        num.className = 'text-3xl font-bold text-stone-900';
-        num.textContent = numero;
-        var lab = document.createElement('p');
-        lab.className = 'text-sm text-stone-500 mt-1';
-        lab.textContent = label;
-        card.appendChild(num);
-        card.appendChild(lab);
-        return card;
-      }
-
-      statRowEl.appendChild(statCard(categoriasHoje.length, 'Categorias ativas hoje'));
-      statRowEl.appendChild(statCard(dados.length, 'Digests carregados'));
-    }
-
-    // --- Widget: resumo do dia ---
-    function renderResumoDia() {
-      var titulo = document.createElement('h2');
-      titulo.className = 'text-sm font-bold text-stone-900 mb-4';
-      titulo.textContent = 'Resumo do dia';
-      resumoDiaEl.appendChild(titulo);
-
-      if (dados.length === 0) {
-        var vazio = document.createElement('p');
-        vazio.className = 'text-sm text-stone-500';
-        vazio.textContent = 'Sem dados ainda.';
-        resumoDiaEl.appendChild(vazio);
-        return;
-      }
-
-      var recente = dados[0];
-      var categorias = recente.categorias || {};
-      var catsNormais = Object.keys(categorias).filter(function (c) { return c !== 'Destaques do dia'; });
-      var totalNoticias = 0;
-      catsNormais.forEach(function (c) { totalNoticias += categorias[c].length; });
-      var comLink = 0;
-      catsNormais.forEach(function (c) {
-        categorias[c].forEach(function (item) { if (item.indexOf('[') !== -1) comLink++; });
-      });
-
-      var grid = document.createElement('div');
-      grid.className = 'grid grid-cols-3 gap-2 text-center mb-4';
-
-      function miniStat(numero, label) {
-        var box = document.createElement('div');
-        var num = document.createElement('p');
-        num.className = 'text-xl font-bold text-stone-900';
-        num.textContent = numero;
-        var lab = document.createElement('p');
-        lab.className = 'text-xs text-stone-500 mt-0.5 leading-tight';
-        lab.textContent = label;
-        box.appendChild(num);
-        box.appendChild(lab);
-        return box;
-      }
-
-      grid.appendChild(miniStat(totalNoticias, 'Notícias'));
-      grid.appendChild(miniStat(catsNormais.length, 'Categorias'));
-      grid.appendChild(miniStat(comLink, 'Com fonte'));
-      resumoDiaEl.appendChild(grid);
-
-      var destaquesLista = categorias['Destaques do dia'];
-      if (destaquesLista && destaquesLista.length > 0) {
-        var box = document.createElement('div');
-        box.className = 'bg-red-50 border border-red-200 rounded-xl p-3';
-        var label = document.createElement('p');
-        label.className = 'text-xs font-bold uppercase tracking-wide text-red-600 mb-1.5';
-        label.textContent = destaquesLista.length + ' destaque' + (destaquesLista.length > 1 ? 's' : '') + ' hoje';
-        box.appendChild(label);
-        var listaDestaques = document.createElement('ul');
-        listaDestaques.className = 'space-y-1.5 list-disc list-inside';
-        destaquesLista.forEach(function (texto) {
-          var li = document.createElement('li');
-          li.className = 'text-xs text-stone-700 leading-relaxed';
-          li.textContent = texto;
-          listaDestaques.appendChild(li);
-        });
-        box.appendChild(listaDestaques);
-        resumoDiaEl.appendChild(box);
-      }
-    }
-
-    // --- Widget: categorias em destaque (ranking) ---
-    function renderTopCategorias() {
-      var titulo = document.createElement('h2');
-      titulo.className = 'text-sm font-bold text-stone-900 mb-4';
-      titulo.textContent = 'Categorias em destaque';
-      topCategoriasEl.appendChild(titulo);
-
-      var contagem = {};
-      dados.forEach(function (dia) {
-        var categorias = dia.categorias || {};
-        Object.keys(categorias).filter(function (c) { return c !== 'Destaques do dia'; }).forEach(function (cat) {
-          var rotulo = categoriaCanonica(cat);
-          contagem[rotulo] = (contagem[rotulo] || 0) + categorias[cat].length;
-        });
-      });
-
-      var rotulos = Object.keys(contagem).sort(function (a, b) { return contagem[b] - contagem[a]; });
-
-      if (rotulos.length === 0) {
-        var vazio = document.createElement('p');
-        vazio.className = 'text-sm text-stone-500';
-        vazio.textContent = 'Sem dados ainda.';
-        topCategoriasEl.appendChild(vazio);
-        return;
-      }
-
-      var max = contagem[rotulos[0]];
-      var lista = document.createElement('div');
-      lista.className = 'space-y-3';
-
-      rotulos.forEach(function (rotulo) {
-        var linha = document.createElement('div');
-
-        var topo = document.createElement('div');
-        topo.className = 'flex items-center justify-between text-xs mb-1';
-        var nome = document.createElement('span');
-        nome.className = 'text-stone-700 font-medium';
-        nome.textContent = rotulo;
-        var num = document.createElement('span');
-        num.className = 'text-stone-500';
-        num.textContent = contagem[rotulo];
-        topo.appendChild(nome);
-        topo.appendChild(num);
-        linha.appendChild(topo);
-
-        var trilha = document.createElement('div');
-        trilha.className = 'w-full h-1.5 bg-stone-100 rounded-full overflow-hidden';
-        var barra = document.createElement('div');
-        barra.className = 'h-full rounded-full ' + corCategoriaSolida(rotulo);
-        barra.style.width = Math.max(8, Math.round((contagem[rotulo] / max) * 100)) + '%';
-        trilha.appendChild(barra);
-        linha.appendChild(trilha);
-
-        lista.appendChild(linha);
-      });
-      topCategoriasEl.appendChild(lista);
-    }
-
-    // --- Widget: fontes mais citadas ---
-    function renderTopFontes() {
-      var titulo = document.createElement('h2');
-      titulo.className = 'text-sm font-bold text-stone-900 mb-4';
-      titulo.textContent = 'Fontes mais citadas';
-      topFontesEl.appendChild(titulo);
-
-      var contagem = {};
-      todosItens.forEach(function (item) {
-        var fonte = extrairFonte(item.texto);
-        if (!fonte) return;
-        contagem[fonte] = (contagem[fonte] || 0) + 1;
-      });
-
-      var nomes = Object.keys(contagem).sort(function (a, b) { return contagem[b] - contagem[a]; }).slice(0, 8);
-
-      if (nomes.length === 0) {
-        var vazio = document.createElement('p');
-        vazio.className = 'text-sm text-stone-500';
-        vazio.textContent = 'Sem dados ainda.';
-        topFontesEl.appendChild(vazio);
-        return;
-      }
-
-      var lista = document.createElement('div');
-      lista.className = 'space-y-2';
-      nomes.forEach(function (nome) {
-        var linha = document.createElement('div');
-        linha.className = 'flex items-center justify-between gap-2 text-xs';
-        var span = document.createElement('span');
-        span.className = 'text-stone-700 truncate';
-        span.textContent = nome;
-        var num = document.createElement('span');
-        num.className = 'text-stone-500 font-semibold flex-shrink-0';
-        num.textContent = contagem[nome];
-        linha.appendChild(span);
-        linha.appendChild(num);
-        lista.appendChild(linha);
-      });
-      topFontesEl.appendChild(lista);
-    }
-
-    // --- Lista completa: achata todos os itens (sem Destaques do dia) ---
+    // --- Achata todos os itens (sem Destaques do dia) ---
     var todosItens = [];
     dados.forEach(function (dia) {
       var categorias = dia.categorias || {};
@@ -350,54 +111,33 @@
       });
     });
 
-    function fonteDoItem(item) {
-      return extrairFonte(item.texto) || 'Outras fontes';
-    }
-
-    var categoriasUnicas = [];
-    todosItens.forEach(function (it) { if (categoriasUnicas.indexOf(it.cat) === -1) categoriasUnicas.push(it.cat); });
-    var diasUnicos = [];
-    dados.forEach(function (d) { if (diasUnicos.indexOf(d.data) === -1) diasUnicos.push(d.data); });
-
-    var categoriasAtivas = {};
-    categoriasUnicas.forEach(function (c) { categoriasAtivas[c] = true; });
-    var diasAtivos = {};
-    diasUnicos.forEach(function (d) { diasAtivos[d] = true; });
-
-    var linhasTodas = [];
-
-    function montarLinha(item) {
-      var linha = document.createElement('div');
-      linha.className = 'flex items-start gap-3 py-3 border-b border-stone-100 last:border-0';
-      linha.dataset.cat = item.cat;
-      linha.dataset.fonte = fonteDoItem(item);
-      linha.dataset.diaData = item.data;
-      linha.dataset.busca = (item.cat + ' ' + item.texto).toLowerCase();
-
-      var bolinha = document.createElement('span');
-      bolinha.className = 'w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 ' + corCategoriaSolida(item.cat);
-      linha.appendChild(bolinha);
-
-      var corpo = document.createElement('div');
-      corpo.className = 'flex-1 min-w-0';
-
-      var tit = document.createElement('p');
-      tit.className = 'text-sm text-stone-800 font-medium leading-snug';
-      tit.textContent = extrairTitulo(item.texto);
-      corpo.appendChild(tit);
-
-      var meta = document.createElement('div');
-      meta.className = 'flex items-center gap-2 mt-1.5 flex-wrap';
+    function montarCard(item) {
+      var card = document.createElement('article');
+      card.className = 'bg-white border border-stone-200 rounded-2xl shadow-sm p-5 flex flex-col h-full hover:border-red-300 transition-colors';
+      card.dataset.busca = (item.cat + ' ' + item.texto).toLowerCase();
 
       var badge = document.createElement('span');
-      badge.className = 'text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ' + corCategoria(item.cat);
+      badge.className = 'inline-block text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-full mb-3 self-start ' + corCategoria(item.cat);
       badge.textContent = item.cat;
-      meta.appendChild(badge);
+      card.appendChild(badge);
+
+      var tit = document.createElement('h3');
+      tit.className = 'text-base font-bold text-stone-900 leading-snug mb-2';
+      tit.textContent = extrairTitulo(item.texto);
+      card.appendChild(tit);
+
+      var resumo = document.createElement('p');
+      resumo.className = 'text-sm text-stone-600 leading-relaxed mb-4 flex-1';
+      resumo.textContent = extrairResumo(item.texto);
+      card.appendChild(resumo);
+
+      var rodape = document.createElement('div');
+      rodape.className = 'flex items-center justify-between gap-2 mt-auto pt-3 border-t border-stone-100';
 
       var dataSpan = document.createElement('span');
       dataSpan.className = 'text-xs text-stone-500';
       dataSpan.textContent = formatarData(item.data);
-      meta.appendChild(dataSpan);
+      rodape.appendChild(dataSpan);
 
       var url = extrairLink(item.texto);
       var fonte = extrairFonte(item.texto);
@@ -407,108 +147,80 @@
         link.target = '_blank';
         link.rel = 'noopener';
         link.className = 'text-xs font-semibold text-blue-700 hover:text-blue-900';
-        link.textContent = (fonte || 'Fonte') + ' ↗';
-        meta.appendChild(link);
+        link.textContent = 'Ler em ' + (fonte || 'fonte') + ' ↗';
+        rodape.appendChild(link);
       } else if (fonte) {
         var fonteSpan = document.createElement('span');
         fonteSpan.className = 'text-xs text-stone-500';
         fonteSpan.textContent = fonte;
-        meta.appendChild(fonteSpan);
+        rodape.appendChild(fonteSpan);
       }
-
-      corpo.appendChild(meta);
-      linha.appendChild(corpo);
-      return linha;
+      card.appendChild(rodape);
+      return card;
     }
 
-    function renderListaItens() {
-      listaItensEl.innerHTML = '';
-      linhasTodas = [];
+    function renderSecoes() {
+      secoesEl.innerHTML = '';
       if (todosItens.length === 0) {
-        listaItensEl.innerHTML = '<p class="text-stone-500 text-sm">Nenhuma notícia encontrada em curadoria/ ainda.</p>';
+        secoesEl.innerHTML = '<p class="text-stone-500 text-sm">Nenhuma notícia encontrada em curadoria/ ainda.</p>';
         return;
       }
+
+      var grupos = {};
       todosItens.forEach(function (item) {
-        var linha = montarLinha(item);
-        listaItensEl.appendChild(linha);
-        linhasTodas.push(linha);
+        var nomeSecao = secaoDoItem(item.cat);
+        if (!grupos[nomeSecao]) grupos[nomeSecao] = [];
+        grupos[nomeSecao].push(item);
+      });
+
+      ['Automotivo', 'Marketing'].forEach(function (nomeSecao) {
+        var itens = grupos[nomeSecao];
+        if (!itens || itens.length === 0) return;
+
+        var secao = document.createElement('section');
+
+        var titulo = document.createElement('h2');
+        titulo.className = 'text-2xl font-bold text-stone-900 pb-2 mb-5 border-b-2 border-red-600 inline-block';
+        titulo.textContent = nomeSecao;
+        secao.appendChild(titulo);
+
+        var grid = document.createElement('div');
+        grid.className = 'grid sm:grid-cols-2 lg:grid-cols-4 gap-5';
+        itens.forEach(function (item) { grid.appendChild(montarCard(item)); });
+        secao.appendChild(grid);
+
+        secoesEl.appendChild(secao);
       });
     }
 
-    function renderFiltrosCategoria() {
-      filtrosEl.innerHTML = '';
-      categoriasUnicas.forEach(function (cat) {
-        var btn = document.createElement('button');
-        var ativo = categoriasAtivas[cat];
-        btn.type = 'button';
-        btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
-        btn.className = 'text-xs font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-1 ' +
-          (ativo ? corCategoria(cat) + ' border-transparent' : 'bg-white text-stone-500 border-stone-200 hover:bg-stone-50 hover:border-stone-300 hover:text-stone-600');
-        btn.textContent = (ativo ? '✓ ' : '') + cat;
-        btn.addEventListener('click', function () {
-          categoriasAtivas[cat] = !categoriasAtivas[cat];
-          renderFiltrosCategoria();
-          aplicarFiltros();
-        });
-        filtrosEl.appendChild(btn);
-      });
-    }
-
-    function renderFiltrosDia() {
-      filtrosDiaEl.innerHTML = '';
-      diasUnicos.forEach(function (d) {
-        var btn = document.createElement('button');
-        var ativo = diasAtivos[d];
-        btn.type = 'button';
-        btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
-        btn.className = 'text-xs font-semibold px-3 py-1.5 rounded-full border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-1 ' +
-          (ativo ? 'bg-stone-800 text-white border-transparent' : 'bg-white text-stone-500 border-stone-200 hover:bg-stone-50 hover:border-stone-300 hover:text-stone-600');
-        btn.textContent = (ativo ? '✓ ' : '') + formatarData(d);
-        btn.addEventListener('click', function () {
-          diasAtivos[d] = !diasAtivos[d];
-          renderFiltrosDia();
-          aplicarFiltros();
-        });
-        filtrosDiaEl.appendChild(btn);
-      });
-    }
-
-    function aplicarFiltros() {
+    function aplicarBusca() {
       var query = buscaEl.value.trim().toLowerCase();
-      var visiveis = 0;
-      linhasTodas.forEach(function (linha) {
-        var passaCategoria = categoriasAtivas[linha.dataset.cat];
-        var passaDia = diasAtivos[linha.dataset.diaData];
-        var passaBusca = query === '' || linha.dataset.busca.indexOf(query) !== -1;
-        var visivel = passaCategoria && passaDia && passaBusca;
-        linha.style.display = visivel ? '' : 'none';
-        if (visivel) visiveis++;
+      var algumVisivel = false;
+      secoesEl.querySelectorAll('article').forEach(function (card) {
+        var visivel = query === '' || card.dataset.busca.indexOf(query) !== -1;
+        card.style.display = visivel ? '' : 'none';
+        if (visivel) algumVisivel = true;
       });
-      contadorEl.textContent = 'Mostrando ' + visiveis + ' de ' + linhasTodas.length + ' notícias';
-
-      var vazioEl = document.getElementById('lista-vazia');
-      if (visiveis === 0 && linhasTodas.length > 0) {
+      secoesEl.querySelectorAll('section').forEach(function (secao) {
+        var temVisivel = Array.prototype.some.call(secao.querySelectorAll('article'), function (c) { return c.style.display !== 'none'; });
+        secao.style.display = temVisivel ? '' : 'none';
+      });
+      var vazioEl = document.getElementById('busca-vazia');
+      if (!algumVisivel && query !== '') {
         if (!vazioEl) {
           vazioEl = document.createElement('p');
-          vazioEl.id = 'lista-vazia';
-          vazioEl.className = 'text-sm text-stone-500 py-6 text-center';
-          listaItensEl.parentNode.insertBefore(vazioEl, listaItensEl.nextSibling);
+          vazioEl.id = 'busca-vazia';
+          vazioEl.className = 'text-sm text-stone-500 py-10 text-center';
+          secoesEl.appendChild(vazioEl);
         }
-        vazioEl.textContent = 'Nenhuma notícia encontrada com esse filtro. Tenta tirar uma palavra da busca ou ativar outra categoria/dia.';
+        vazioEl.textContent = 'Nenhuma notícia encontrada pra "' + query + '". Tenta outro termo.';
       } else if (vazioEl) {
         vazioEl.remove();
       }
     }
 
-    renderStatRow();
-    renderResumoDia();
-    renderTopCategorias();
-    renderTopFontes();
-    renderListaItens();
-    renderFiltrosCategoria();
-    renderFiltrosDia();
-    aplicarFiltros();
-    buscaEl.addEventListener('input', aplicarFiltros);
+    renderSecoes();
+    buscaEl.addEventListener('input', aplicarBusca);
   </script>
 </body>
 </html>
