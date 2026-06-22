@@ -24,7 +24,7 @@
       </div>
       <input id="busca" type="text" placeholder="Buscar por palavra-chave (ex: BYD, IPVA, campanha)..."
         class="flex-1 min-w-[220px] max-w-md rounded-lg border border-stone-300 bg-stone-50 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white">
-      <p class="text-xs text-stone-400 whitespace-nowrap">Atualizado em 22/06/2026 11:43</p>
+      <p class="text-xs text-stone-400 whitespace-nowrap">Atualizado em 22/06/2026 11:55</p>
     </div>
   </header>
 
@@ -33,22 +33,19 @@
     <div class="grid md:grid-cols-3 gap-5" id="stat-row"></div>
 
     <div class="grid md:grid-cols-3 gap-5">
-      <div class="md:col-span-2">
-        <div id="widget-recentes" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6 h-full"></div>
-      </div>
-      <div class="space-y-5">
-        <div id="widget-resumo-dia" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6"></div>
-        <div id="widget-top-categorias" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6"></div>
-      </div>
+      <div id="widget-resumo-dia" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6"></div>
+      <div id="widget-top-categorias" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6"></div>
+      <div id="widget-top-fontes" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6"></div>
     </div>
 
-    <section id="lista-completa" class="pt-2">
+    <section id="lista-completa" class="bg-white border border-stone-200 rounded-2xl shadow-sm p-6">
       <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
-        <h2 class="text-base font-bold text-stone-900">Todas as notícias</h2>
+        <h2 class="text-base font-bold text-stone-900">Últimas notícias</h2>
         <p id="contador" class="text-xs text-stone-400"></p>
       </div>
-      <div id="filtros" class="flex flex-wrap gap-2 mb-6"></div>
-      <div id="feed"></div>
+      <div id="filtros" class="flex flex-wrap gap-2 mb-2"></div>
+      <div id="filtros-dia" class="flex flex-wrap gap-2 mb-4"></div>
+      <div id="lista-itens"></div>
     </section>
 
   </main>
@@ -61,11 +58,12 @@
   <script>
     var dados = JSON.parse(document.getElementById('dados-curadoria').textContent);
     var statRowEl = document.getElementById('stat-row');
-    var recentesEl = document.getElementById('widget-recentes');
     var resumoDiaEl = document.getElementById('widget-resumo-dia');
     var topCategoriasEl = document.getElementById('widget-top-categorias');
-    var feed = document.getElementById('feed');
+    var topFontesEl = document.getElementById('widget-top-fontes');
+    var listaItensEl = document.getElementById('lista-itens');
     var filtrosEl = document.getElementById('filtros');
+    var filtrosDiaEl = document.getElementById('filtros-dia');
     var contadorEl = document.getElementById('contador');
     var buscaEl = document.getElementById('busca');
 
@@ -79,8 +77,21 @@
       return dia + ' de ' + MESES[mes] + ' de ' + ano;
     }
 
-    function linkify(texto) {
-      return texto.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-pink-700 underline hover:text-pink-900">$1</a>');
+    function extrairTitulo(texto) {
+      var m = texto.match(/^\*\*([^*]+)\*\*/);
+      if (m) return m[1];
+      return texto.length > 90 ? texto.slice(0, 90) + '…' : texto;
+    }
+
+    function extrairFonte(texto) {
+      var m = texto.match(/—\s*([^.]+)\./);
+      if (!m) return null;
+      return m[1].replace(/,\s*\d{1,2}\/\d{1,2}\s*$/, '').trim();
+    }
+
+    function extrairLink(texto) {
+      var m = texto.match(/\[([^\]]+)\]\(([^)]+)\)/);
+      return m ? m[2] : null;
     }
 
     function corCategoria(cat) {
@@ -121,12 +132,6 @@
       return 'Notícias gerais';
     }
 
-    function extrairTitulo(texto) {
-      var m = texto.match(/^\*\*([^*]+)\*\*/);
-      if (m) return m[1];
-      return texto.length > 90 ? texto.slice(0, 90) + '…' : texto;
-    }
-
     // --- Stat row ---
     function renderStatRow() {
       if (dados.length === 0) return;
@@ -163,74 +168,6 @@
 
       statRowEl.appendChild(statCard(categoriasHoje.length, 'Categorias ativas hoje'));
       statRowEl.appendChild(statCard(dados.length, 'Digests carregados'));
-    }
-
-    // --- Widget: ultimas noticias ---
-    function renderRecentes() {
-      var titulo = document.createElement('p');
-      titulo.className = 'text-sm font-bold text-stone-900 mb-4';
-      titulo.textContent = 'Últimas notícias';
-      recentesEl.appendChild(titulo);
-
-      var itens = [];
-      dados.slice(0, 2).forEach(function (dia) {
-        var categorias = dia.categorias || {};
-        Object.keys(categorias).filter(function (c) { return c !== 'Destaques do dia'; }).forEach(function (cat) {
-          categorias[cat].forEach(function (texto) {
-            itens.push({ cat: cat, texto: texto, data: dia.data });
-          });
-        });
-      });
-      itens = itens.slice(0, 8);
-
-      if (itens.length === 0) {
-        var vazio = document.createElement('p');
-        vazio.className = 'text-sm text-stone-400';
-        vazio.textContent = 'Nenhuma notícia recente.';
-        recentesEl.appendChild(vazio);
-        return;
-      }
-
-      var lista = document.createElement('div');
-      lista.className = 'space-y-3';
-      itens.forEach(function (item) {
-        var linha = document.createElement('div');
-        linha.className = 'flex items-start gap-3 py-2 border-b border-stone-100 last:border-0';
-
-        var bolinha = document.createElement('span');
-        bolinha.className = 'w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 ' + corCategoriaSolida(item.cat);
-        linha.appendChild(bolinha);
-
-        var corpo = document.createElement('div');
-        corpo.className = 'flex-1 min-w-0';
-
-        var tit = document.createElement('p');
-        tit.className = 'text-sm text-stone-800 font-medium leading-snug';
-        tit.textContent = extrairTitulo(item.texto);
-        corpo.appendChild(tit);
-
-        var meta = document.createElement('div');
-        meta.className = 'flex items-center gap-2 mt-1';
-        var badge = document.createElement('span');
-        badge.className = 'text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ' + corCategoria(item.cat);
-        badge.textContent = item.cat;
-        var dataSpan = document.createElement('span');
-        dataSpan.className = 'text-[11px] text-stone-400';
-        dataSpan.textContent = formatarData(item.data);
-        meta.appendChild(badge);
-        meta.appendChild(dataSpan);
-        corpo.appendChild(meta);
-
-        linha.appendChild(corpo);
-        lista.appendChild(linha);
-      });
-      recentesEl.appendChild(lista);
-
-      var verTodas = document.createElement('a');
-      verTodas.href = '#lista-completa';
-      verTodas.className = 'inline-block mt-4 text-xs font-semibold text-pink-600 hover:text-pink-800';
-      verTodas.textContent = 'Ver todas as notícias →';
-      recentesEl.appendChild(verTodas);
     }
 
     // --- Widget: resumo do dia ---
@@ -287,10 +224,15 @@
         label.className = 'text-[10px] font-bold uppercase tracking-wide text-pink-600 mb-1.5';
         label.textContent = destaquesLista.length + ' destaque' + (destaquesLista.length > 1 ? 's' : '') + ' hoje';
         box.appendChild(label);
-        var p = document.createElement('p');
-        p.className = 'text-xs text-stone-700 leading-relaxed';
-        p.textContent = destaquesLista[0];
-        box.appendChild(p);
+        var listaDestaques = document.createElement('ul');
+        listaDestaques.className = 'space-y-1.5 list-disc list-inside';
+        destaquesLista.forEach(function (texto) {
+          var li = document.createElement('li');
+          li.className = 'text-xs text-stone-700 leading-relaxed';
+          li.textContent = texto;
+          listaDestaques.appendChild(li);
+        });
+        box.appendChild(listaDestaques);
         resumoDiaEl.appendChild(box);
       }
     }
@@ -353,68 +295,140 @@
       topCategoriasEl.appendChild(lista);
     }
 
-    renderStatRow();
-    renderRecentes();
-    renderResumoDia();
-    renderTopCategorias();
+    // --- Widget: fontes mais citadas ---
+    function renderTopFontes() {
+      var titulo = document.createElement('p');
+      titulo.className = 'text-sm font-bold text-stone-900 mb-4';
+      titulo.textContent = 'Fontes mais citadas';
+      topFontesEl.appendChild(titulo);
 
-    // --- Monta artigos + coleta categorias unicas ---
-    var categoriasUnicas = [];
-    var artigos = [];
-
-    dados.forEach(function (dia) {
-      var categorias = dia.categorias || {};
-      var catsDoDia = Object.keys(categorias).filter(function (c) { return c !== 'Destaques do dia'; });
-      if (catsDoDia.length === 0) return;
-
-      var secao = document.createElement('section');
-      secao.className = 'mb-10';
-
-      var dataTitulo = document.createElement('h2');
-      dataTitulo.className = 'text-xs font-bold text-stone-400 uppercase tracking-widest mb-3';
-      dataTitulo.textContent = formatarData(dia.data);
-      secao.appendChild(dataTitulo);
-
-      var lista = document.createElement('div');
-      lista.className = 'space-y-3';
-
-      catsDoDia.forEach(function (cat) {
-        if (categoriasUnicas.indexOf(cat) === -1) categoriasUnicas.push(cat);
-
-        categorias[cat].forEach(function (item) {
-          var art = document.createElement('article');
-          art.className = 'bg-white border border-stone-200 rounded-2xl shadow-sm p-4 hover:border-pink-300 transition-colors';
-          art.dataset.cat = cat;
-          art.dataset.busca = (cat + ' ' + item).toLowerCase();
-
-          var badge = document.createElement('span');
-          badge.className = 'inline-block text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full mb-2 ' + corCategoria(cat);
-          badge.textContent = cat;
-          art.appendChild(badge);
-
-          var texto = document.createElement('p');
-          texto.className = 'text-sm text-stone-700 leading-relaxed';
-          texto.innerHTML = linkify(item);
-          art.appendChild(texto);
-
-          lista.appendChild(art);
-          artigos.push(art);
-        });
+      var contagem = {};
+      todosItens.forEach(function (item) {
+        var fonte = extrairFonte(item.texto);
+        if (!fonte) return;
+        contagem[fonte] = (contagem[fonte] || 0) + 1;
       });
 
-      secao.appendChild(lista);
-      feed.appendChild(secao);
-    });
+      var nomes = Object.keys(contagem).sort(function (a, b) { return contagem[b] - contagem[a]; }).slice(0, 8);
 
-    if (dados.length === 0) {
-      feed.innerHTML = '<p class="text-stone-400 text-sm">Nenhum digest encontrado em curadoria/ ainda.</p>';
+      if (nomes.length === 0) {
+        var vazio = document.createElement('p');
+        vazio.className = 'text-sm text-stone-400';
+        vazio.textContent = 'Sem dados ainda.';
+        topFontesEl.appendChild(vazio);
+        return;
+      }
+
+      var lista = document.createElement('div');
+      lista.className = 'space-y-2';
+      nomes.forEach(function (nome) {
+        var linha = document.createElement('div');
+        linha.className = 'flex items-center justify-between gap-2 text-xs';
+        var span = document.createElement('span');
+        span.className = 'text-stone-700 truncate';
+        span.textContent = nome;
+        var num = document.createElement('span');
+        num.className = 'text-stone-400 font-semibold flex-shrink-0';
+        num.textContent = contagem[nome];
+        linha.appendChild(span);
+        linha.appendChild(num);
+        lista.appendChild(linha);
+      });
+      topFontesEl.appendChild(lista);
     }
 
-    // --- Filtros por categoria (chips) ---
+    // --- Lista completa: achata todos os itens (sem Destaques do dia) ---
+    var todosItens = [];
+    dados.forEach(function (dia) {
+      var categorias = dia.categorias || {};
+      Object.keys(categorias).filter(function (c) { return c !== 'Destaques do dia'; }).forEach(function (cat) {
+        categorias[cat].forEach(function (texto) {
+          todosItens.push({ cat: cat, texto: texto, data: dia.data });
+        });
+      });
+    });
+
+    var categoriasUnicas = [];
+    todosItens.forEach(function (it) { if (categoriasUnicas.indexOf(it.cat) === -1) categoriasUnicas.push(it.cat); });
+    var diasUnicos = [];
+    dados.forEach(function (d) { if (diasUnicos.indexOf(d.data) === -1) diasUnicos.push(d.data); });
+
     var categoriasAtivas = {};
     categoriasUnicas.forEach(function (c) { categoriasAtivas[c] = true; });
+    var diasAtivos = {};
+    diasUnicos.forEach(function (d) { diasAtivos[d] = true; });
 
-    function renderFiltros() {
+    var linhasTodas = [];
+
+    function montarLinha(item) {
+      var linha = document.createElement('div');
+      linha.className = 'flex items-start gap-3 py-3 border-b border-stone-100 last:border-0';
+      linha.dataset.cat = item.cat;
+      linha.dataset.diaData = item.data;
+      linha.dataset.busca = (item.cat + ' ' + item.texto).toLowerCase();
+
+      var bolinha = document.createElement('span');
+      bolinha.className = 'w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 ' + corCategoriaSolida(item.cat);
+      linha.appendChild(bolinha);
+
+      var corpo = document.createElement('div');
+      corpo.className = 'flex-1 min-w-0';
+
+      var tit = document.createElement('p');
+      tit.className = 'text-sm text-stone-800 font-medium leading-snug';
+      tit.textContent = extrairTitulo(item.texto);
+      corpo.appendChild(tit);
+
+      var meta = document.createElement('div');
+      meta.className = 'flex items-center gap-2 mt-1.5 flex-wrap';
+
+      var badge = document.createElement('span');
+      badge.className = 'text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ' + corCategoria(item.cat);
+      badge.textContent = item.cat;
+      meta.appendChild(badge);
+
+      var dataSpan = document.createElement('span');
+      dataSpan.className = 'text-[11px] text-stone-400';
+      dataSpan.textContent = formatarData(item.data);
+      meta.appendChild(dataSpan);
+
+      var url = extrairLink(item.texto);
+      var fonte = extrairFonte(item.texto);
+      if (url) {
+        var link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.className = 'text-[11px] font-semibold text-pink-600 hover:text-pink-800';
+        link.textContent = (fonte || 'Fonte') + ' ↗';
+        meta.appendChild(link);
+      } else if (fonte) {
+        var fonteSpan = document.createElement('span');
+        fonteSpan.className = 'text-[11px] text-stone-400';
+        fonteSpan.textContent = fonte;
+        meta.appendChild(fonteSpan);
+      }
+
+      corpo.appendChild(meta);
+      linha.appendChild(corpo);
+      return linha;
+    }
+
+    function renderListaItens() {
+      listaItensEl.innerHTML = '';
+      linhasTodas = [];
+      if (todosItens.length === 0) {
+        listaItensEl.innerHTML = '<p class="text-stone-400 text-sm">Nenhuma notícia encontrada em curadoria/ ainda.</p>';
+        return;
+      }
+      todosItens.forEach(function (item) {
+        var linha = montarLinha(item);
+        listaItensEl.appendChild(linha);
+        linhasTodas.push(linha);
+      });
+    }
+
+    function renderFiltrosCategoria() {
       filtrosEl.innerHTML = '';
       categoriasUnicas.forEach(function (cat) {
         var btn = document.createElement('button');
@@ -425,32 +439,52 @@
         btn.textContent = cat;
         btn.addEventListener('click', function () {
           categoriasAtivas[cat] = !categoriasAtivas[cat];
-          renderFiltros();
+          renderFiltrosCategoria();
           aplicarFiltros();
         });
         filtrosEl.appendChild(btn);
       });
     }
 
+    function renderFiltrosDia() {
+      filtrosDiaEl.innerHTML = '';
+      diasUnicos.forEach(function (d) {
+        var btn = document.createElement('button');
+        var ativo = diasAtivos[d];
+        btn.type = 'button';
+        btn.className = 'text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors ' +
+          (ativo ? 'bg-stone-800 text-white border-transparent' : 'bg-white text-stone-400 border-stone-200');
+        btn.textContent = formatarData(d);
+        btn.addEventListener('click', function () {
+          diasAtivos[d] = !diasAtivos[d];
+          renderFiltrosDia();
+          aplicarFiltros();
+        });
+        filtrosDiaEl.appendChild(btn);
+      });
+    }
+
     function aplicarFiltros() {
       var query = buscaEl.value.trim().toLowerCase();
       var visiveis = 0;
-      artigos.forEach(function (art) {
-        var passaCategoria = categoriasAtivas[art.dataset.cat];
-        var passaBusca = query === '' || art.dataset.busca.indexOf(query) !== -1;
-        var visivel = passaCategoria && passaBusca;
-        art.style.display = visivel ? '' : 'none';
+      linhasTodas.forEach(function (linha) {
+        var passaCategoria = categoriasAtivas[linha.dataset.cat];
+        var passaDia = diasAtivos[linha.dataset.diaData];
+        var passaBusca = query === '' || linha.dataset.busca.indexOf(query) !== -1;
+        var visivel = passaCategoria && passaDia && passaBusca;
+        linha.style.display = visivel ? '' : 'none';
         if (visivel) visiveis++;
       });
-      // esconde secoes de dia sem nenhum artigo visivel
-      document.querySelectorAll('#feed section').forEach(function (secao) {
-        var algumVisivel = Array.prototype.some.call(secao.querySelectorAll('article'), function (a) { return a.style.display !== 'none'; });
-        secao.style.display = algumVisivel ? '' : 'none';
-      });
-      contadorEl.textContent = 'Mostrando ' + visiveis + ' de ' + artigos.length + ' notícias';
+      contadorEl.textContent = 'Mostrando ' + visiveis + ' de ' + linhasTodas.length + ' notícias';
     }
 
-    renderFiltros();
+    renderStatRow();
+    renderResumoDia();
+    renderTopCategorias();
+    renderTopFontes();
+    renderListaItens();
+    renderFiltrosCategoria();
+    renderFiltrosDia();
     aplicarFiltros();
     buscaEl.addEventListener('input', aplicarFiltros);
   </script>
