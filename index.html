@@ -24,7 +24,7 @@
       </div>
       <input id="busca" type="text" placeholder="Buscar por palavra-chave (ex: BYD, IPVA, campanha)..."
         class="flex-1 min-w-[220px] max-w-md rounded-lg border border-stone-300 bg-stone-50 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white">
-      <p class="text-xs text-stone-400 whitespace-nowrap">Atualizado em 22/06/2026 12:52</p>
+      <p class="text-xs text-stone-400 whitespace-nowrap">Atualizado em 22/06/2026 12:54</p>
     </div>
   </header>
 
@@ -352,13 +352,13 @@
       return extrairFonte(item.texto) || 'Outras fontes';
     }
 
-    var fontesUnicas = [];
-    todosItens.forEach(function (it) { var f = fonteDoItem(it); if (fontesUnicas.indexOf(f) === -1) fontesUnicas.push(f); });
+    var categoriasUnicas = [];
+    todosItens.forEach(function (it) { if (categoriasUnicas.indexOf(it.cat) === -1) categoriasUnicas.push(it.cat); });
     var diasUnicos = [];
     dados.forEach(function (d) { if (diasUnicos.indexOf(d.data) === -1) diasUnicos.push(d.data); });
 
-    var fontesAtivas = {};
-    fontesUnicas.forEach(function (f) { fontesAtivas[f] = true; });
+    var categoriasAtivas = {};
+    categoriasUnicas.forEach(function (c) { categoriasAtivas[c] = true; });
     var diasAtivos = {};
     diasUnicos.forEach(function (d) { diasAtivos[d] = true; });
 
@@ -433,18 +433,18 @@
       });
     }
 
-    function renderFiltrosFonte() {
+    function renderFiltrosCategoria() {
       filtrosEl.innerHTML = '';
-      fontesUnicas.forEach(function (fonte) {
+      categoriasUnicas.forEach(function (cat) {
         var btn = document.createElement('button');
-        var ativo = fontesAtivas[fonte];
+        var ativo = categoriasAtivas[cat];
         btn.type = 'button';
-        btn.className = 'text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors ' +
-          (ativo ? 'bg-blue-700 text-white border-transparent' : 'bg-white text-stone-400 border-stone-200');
-        btn.textContent = fonte;
+        btn.className = 'text-[11px] font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full border transition-colors ' +
+          (ativo ? corCategoria(cat) + ' border-transparent' : 'bg-white text-stone-400 border-stone-200');
+        btn.textContent = cat;
         btn.addEventListener('click', function () {
-          fontesAtivas[fonte] = !fontesAtivas[fonte];
-          renderFiltrosFonte();
+          categoriasAtivas[cat] = !categoriasAtivas[cat];
+          renderFiltrosCategoria();
           aplicarFiltros();
         });
         filtrosEl.appendChild(btn);
@@ -473,10 +473,10 @@
       var query = buscaEl.value.trim().toLowerCase();
       var visiveis = 0;
       linhasTodas.forEach(function (linha) {
-        var passaFonte = fontesAtivas[linha.dataset.fonte];
+        var passaCategoria = categoriasAtivas[linha.dataset.cat];
         var passaDia = diasAtivos[linha.dataset.diaData];
         var passaBusca = query === '' || linha.dataset.busca.indexOf(query) !== -1;
-        var visivel = passaFonte && passaDia && passaBusca;
+        var visivel = passaCategoria && passaDia && passaBusca;
         linha.style.display = visivel ? '' : 'none';
         if (visivel) visiveis++;
       });
@@ -488,7 +488,7 @@
     renderTopCategorias();
     renderTopFontes();
     renderListaItens();
-    renderFiltrosFonte();
+    renderFiltrosCategoria();
     renderFiltrosDia();
     aplicarFiltros();
     buscaEl.addEventListener('input', aplicarFiltros);
