@@ -24,7 +24,7 @@
       </div>
       <input id="busca" type="text" aria-label="Buscar notícias por palavra-chave" placeholder="Buscar por palavra-chave (ex: BYD, IPVA, campanha)..."
         class="flex-1 min-w-[220px] max-w-md rounded-lg border border-stone-300 bg-stone-50 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white">
-      <p class="text-xs text-stone-500 whitespace-nowrap">Atualizado em 22/06/2026 17:23</p>
+      <p class="text-xs text-stone-500 whitespace-nowrap">Atualizado em 22/06/2026 17:32</p>
     </div>
   </header>
 
@@ -43,7 +43,9 @@
         <h2 class="text-base font-bold text-stone-900">Últimas notícias</h2>
         <p id="contador" class="text-xs text-stone-500"></p>
       </div>
-      <div id="filtros" class="flex flex-wrap gap-2 mb-2"></div>
+      <p class="text-[11px] font-semibold uppercase tracking-wide text-stone-400 mb-1.5">Filtrar por categoria (clique pra ativar/desativar)</p>
+      <div id="filtros" class="flex flex-wrap gap-2 mb-3"></div>
+      <p class="text-[11px] font-semibold uppercase tracking-wide text-stone-400 mb-1.5">Filtrar por dia</p>
       <div id="filtros-dia" class="flex flex-wrap gap-2 mb-4"></div>
       <div id="lista-itens"></div>
     </section>
@@ -442,7 +444,7 @@
         btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
         btn.className = 'text-xs font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-1 ' +
           (ativo ? corCategoria(cat) + ' border-transparent' : 'bg-white text-stone-500 border-stone-200 hover:bg-stone-50 hover:border-stone-300 hover:text-stone-600');
-        btn.textContent = cat;
+        btn.textContent = (ativo ? '✓ ' : '') + cat;
         btn.addEventListener('click', function () {
           categoriasAtivas[cat] = !categoriasAtivas[cat];
           renderFiltrosCategoria();
@@ -461,7 +463,7 @@
         btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
         btn.className = 'text-xs font-semibold px-3 py-1.5 rounded-full border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-1 ' +
           (ativo ? 'bg-stone-800 text-white border-transparent' : 'bg-white text-stone-500 border-stone-200 hover:bg-stone-50 hover:border-stone-300 hover:text-stone-600');
-        btn.textContent = formatarData(d);
+        btn.textContent = (ativo ? '✓ ' : '') + formatarData(d);
         btn.addEventListener('click', function () {
           diasAtivos[d] = !diasAtivos[d];
           renderFiltrosDia();
