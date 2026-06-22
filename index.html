@@ -22,9 +22,9 @@
           <h1 class="text-lg font-bold text-stone-900 leading-tight">Radar Automotivo</h1>
         </div>
       </div>
-      <input id="busca" type="text" placeholder="Buscar por palavra-chave (ex: BYD, IPVA, campanha)..."
+      <input id="busca" type="text" aria-label="Buscar notícias por palavra-chave" placeholder="Buscar por palavra-chave (ex: BYD, IPVA, campanha)..."
         class="flex-1 min-w-[220px] max-w-md rounded-lg border border-stone-300 bg-stone-50 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white">
-      <p class="text-xs text-stone-400 whitespace-nowrap">Atualizado em 22/06/2026 12:54</p>
+      <p class="text-xs text-stone-400 whitespace-nowrap">Atualizado em 22/06/2026 17:17</p>
     </div>
   </header>
 
@@ -439,8 +439,9 @@
         var btn = document.createElement('button');
         var ativo = categoriasAtivas[cat];
         btn.type = 'button';
-        btn.className = 'text-[11px] font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full border transition-colors ' +
-          (ativo ? corCategoria(cat) + ' border-transparent' : 'bg-white text-stone-400 border-stone-200');
+        btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+        btn.className = 'text-[11px] font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-1 ' +
+          (ativo ? corCategoria(cat) + ' border-transparent' : 'bg-white text-stone-400 border-stone-200 hover:bg-stone-50 hover:border-stone-300 hover:text-stone-600');
         btn.textContent = cat;
         btn.addEventListener('click', function () {
           categoriasAtivas[cat] = !categoriasAtivas[cat];
@@ -457,8 +458,9 @@
         var btn = document.createElement('button');
         var ativo = diasAtivos[d];
         btn.type = 'button';
-        btn.className = 'text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors ' +
-          (ativo ? 'bg-stone-800 text-white border-transparent' : 'bg-white text-stone-400 border-stone-200');
+        btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+        btn.className = 'text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-1 ' +
+          (ativo ? 'bg-stone-800 text-white border-transparent' : 'bg-white text-stone-400 border-stone-200 hover:bg-stone-50 hover:border-stone-300 hover:text-stone-600');
         btn.textContent = formatarData(d);
         btn.addEventListener('click', function () {
           diasAtivos[d] = !diasAtivos[d];
@@ -481,6 +483,19 @@
         if (visivel) visiveis++;
       });
       contadorEl.textContent = 'Mostrando ' + visiveis + ' de ' + linhasTodas.length + ' notícias';
+
+      var vazioEl = document.getElementById('lista-vazia');
+      if (visiveis === 0 && linhasTodas.length > 0) {
+        if (!vazioEl) {
+          vazioEl = document.createElement('p');
+          vazioEl.id = 'lista-vazia';
+          vazioEl.className = 'text-sm text-stone-400 py-6 text-center';
+          listaItensEl.parentNode.insertBefore(vazioEl, listaItensEl.nextSibling);
+        }
+        vazioEl.textContent = 'Nenhuma notícia encontrada com esse filtro. Tenta tirar uma palavra da busca ou ativar outra categoria/dia.';
+      } else if (vazioEl) {
+        vazioEl.remove();
+      }
     }
 
     renderStatRow();
