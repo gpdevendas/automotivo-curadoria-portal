@@ -26,13 +26,15 @@
           class="w-full bg-transparent border-0 border-b border-white/30 text-white placeholder-white/50 px-0 py-2 text-sm focus:outline-none focus:border-red-400 transition-colors">
       </div>
       <nav id="categoria-nav" class="flex flex-wrap gap-x-5 gap-y-2 mt-10 text-xs font-semibold tracking-wide lowercase"></nav>
-      <p class="text-xs text-white/50 mt-8 lowercase">atualizado em 22/06/2026 21:25</p>
+      <p class="text-xs text-white/50 mt-8 lowercase">atualizado em 22/06/2026 21:27</p>
     </div>
   </section>
 
   <div id="destaques-wrap"></div>
 
   <main id="secoes"></main>
+
+  <div id="blog-wrap"></div>
 
   <footer class="bg-stone-950 text-stone-300">
     <div class="max-w-6xl mx-auto px-6 py-14 grid sm:grid-cols-3 gap-10">
@@ -82,13 +84,13 @@
     }
 
     var SECOES = [
-      { nome: 'mercado e vendas', slug: 'mercado-e-vendas' },
-      { nome: 'impostos e legislação', slug: 'impostos-e-legislacao' },
-      { nome: 'notícias gerais', slug: 'noticias-gerais' },
-      { nome: 'lançamentos e novidades', slug: 'lancamentos-e-novidades' },
-      { nome: 'elétricos e tendências', slug: 'eletricos-e-tendencias' },
-      { nome: 'varejo e concessionária', slug: 'varejo-e-concessionaria' },
-      { nome: 'marketing e publicidade', slug: 'marketing-e-publicidade' }
+      { nome: 'mercado e vendas', slug: 'mercado-e-vendas', tipo: 'noticia' },
+      { nome: 'impostos e legislação', slug: 'impostos-e-legislacao', tipo: 'noticia' },
+      { nome: 'notícias gerais', slug: 'noticias-gerais', tipo: 'noticia' },
+      { nome: 'lançamentos e novidades', slug: 'lancamentos-e-novidades', tipo: 'noticia' },
+      { nome: 'elétricos e tendências', slug: 'eletricos-e-tendencias', tipo: 'noticia' },
+      { nome: 'varejo e concessionária', slug: 'varejo-e-concessionaria', tipo: 'noticia' },
+      { nome: 'marketing e publicidade', slug: 'marketing-e-publicidade', tipo: 'blog' }
     ];
 
     function extrairResumo(texto) {
@@ -225,7 +227,7 @@
       });
 
       var idx = 0;
-      SECOES.forEach(function (s) {
+      SECOES.filter(function (s) { return s.tipo === 'noticia'; }).forEach(function (s) {
         var itens = grupos[s.nome];
         if (!itens || itens.length === 0) return;
 
@@ -269,6 +271,73 @@
           footerEl.appendChild(navLink);
         }
       });
+
+      var temBlog = SECOES.some(function (s) { return s.tipo === 'blog' && grupos[s.nome] && grupos[s.nome].length > 0; });
+      if (temBlog) {
+        if (navEl) {
+          var tabBlog = document.createElement('a');
+          tabBlog.href = '#blog';
+          tabBlog.className = 'text-red-500 hover:text-red-400 transition-colors border-l border-white/20 pl-5';
+          tabBlog.textContent = 'blog →';
+          navEl.appendChild(tabBlog);
+        }
+        if (footerEl) {
+          var blogLinkFooter = document.createElement('a');
+          blogLinkFooter.href = '#blog';
+          blogLinkFooter.className = 'block text-stone-400 hover:text-white transition-colors lowercase mt-3 pt-3 border-t border-stone-800';
+          blogLinkFooter.textContent = 'blog · marketing e publicidade';
+          footerEl.appendChild(blogLinkFooter);
+        }
+      }
+    }
+
+    function renderBlog() {
+      var wrap = document.getElementById('blog-wrap');
+      if (!wrap) return;
+      wrap.innerHTML = '';
+
+      var grupos = {};
+      todosItens.forEach(function (item) {
+        var nomeSecao = secaoDoItem(item.cat);
+        if (!grupos[nomeSecao]) grupos[nomeSecao] = [];
+        grupos[nomeSecao].push(item);
+      });
+
+      var secoesBlog = SECOES.filter(function (s) { return s.tipo === 'blog' && grupos[s.nome] && grupos[s.nome].length > 0; });
+      if (secoesBlog.length === 0) return;
+
+      var divisor = document.createElement('div');
+      divisor.id = 'blog';
+      divisor.className = 'bg-stone-950 py-12';
+      var divisorInner = document.createElement('div');
+      divisorInner.className = 'max-w-6xl mx-auto px-6';
+      var kicker = document.createElement('p');
+      kicker.className = 'text-xs font-semibold tracking-widest text-red-500 lowercase mb-2';
+      kicker.textContent = 'fora do fluxo de notícias';
+      divisorInner.appendChild(kicker);
+      var tituloBlog = document.createElement('h2');
+      tituloBlog.className = 'font-serif text-3xl md:text-4xl font-bold text-white lowercase';
+      tituloBlog.textContent = 'blog · marketing e publicidade';
+      divisorInner.appendChild(tituloBlog);
+      divisor.appendChild(divisorInner);
+      wrap.appendChild(divisor);
+
+      secoesBlog.forEach(function (s) {
+        var itens = grupos[s.nome];
+        var secao = document.createElement('section');
+        secao.className = 'bg-stone-100 py-16';
+
+        var inner = document.createElement('div');
+        inner.className = 'max-w-6xl mx-auto px-6';
+
+        var grid = document.createElement('div');
+        grid.className = 'grid sm:grid-cols-2 lg:grid-cols-3 gap-6';
+        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0)); });
+        inner.appendChild(grid);
+
+        secao.appendChild(inner);
+        wrap.appendChild(secao);
+      });
     }
 
     function aplicarBusca() {
@@ -299,6 +368,7 @@
 
     renderDestaques();
     renderSecoes();
+    renderBlog();
     buscaEl.addEventListener('input', aplicarBusca);
   </script>
 </body>
