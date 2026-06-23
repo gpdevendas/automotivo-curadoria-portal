@@ -43,7 +43,7 @@
         </select>
       </div>
       <nav id="categoria-nav" class="flex flex-wrap gap-x-5 gap-y-2 mt-8 text-xs font-semibold tracking-wide"></nav>
-      <p class="text-xs text-white/50 mt-8">Atualizado em 23/06/2026 13:37</p>
+      <p class="text-xs text-white/50 mt-8">Atualizado em 23/06/2026 14:54</p>
     </div>
   </section>
 
@@ -153,37 +153,56 @@
       });
     });
 
-    function montarCard(item, destaque, categoriaLimpa) {
+    function montarCard(item, destaque, categoriaLimpa, tipo) {
+      var ehBlog = tipo === 'blog';
       var card = document.createElement('article');
-      card.className = destaque
-        ? 'sm:col-span-2 bg-gradient-to-br from-red-600 to-red-800 rounded-2xl shadow-md p-7 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1'
-        : 'bg-[#FAF7F2] rounded-2xl shadow-sm ring-1 ring-stone-100 p-6 flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1';
+      if (ehBlog) {
+        card.className = destaque
+          ? 'sm:col-span-2 bg-slate-900 rounded-xl shadow-md p-7 flex flex-col h-full transition-all duration-300 hover:shadow-xl'
+          : 'bg-white rounded-xl shadow-sm ring-1 ring-slate-200 p-6 flex flex-col h-full transition-all duration-300 hover:shadow-md';
+      } else {
+        card.className = destaque
+          ? 'sm:col-span-2 bg-gradient-to-br from-red-600 to-red-800 rounded-2xl shadow-md p-7 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1'
+          : 'bg-[#FAF7F2] rounded-2xl shadow-sm ring-1 ring-stone-100 p-6 flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1';
+      }
       card.dataset.busca = (item.cat + ' ' + item.texto).toLowerCase();
 
       var eyebrow = document.createElement('span');
-      eyebrow.className = destaque
-        ? 'inline-block text-xs font-semibold tracking-widest mb-3 text-white/70 uppercase'
-        : 'inline-block text-xs font-semibold tracking-widest mb-3 text-red-600 bg-red-50 rounded-full px-2.5 py-1 w-fit uppercase';
+      if (ehBlog) {
+        eyebrow.className = destaque
+          ? 'inline-block text-xs font-semibold tracking-wide mb-3 text-indigo-300 uppercase'
+          : 'inline-block text-xs font-semibold tracking-wide mb-3 text-indigo-600 bg-indigo-50 rounded px-2 py-1 w-fit uppercase';
+      } else {
+        eyebrow.className = destaque
+          ? 'inline-block text-xs font-semibold tracking-widest mb-3 text-white/70 uppercase'
+          : 'inline-block text-xs font-semibold tracking-widest mb-3 text-red-600 bg-red-50 rounded-full px-2.5 py-1 w-fit uppercase';
+      }
       eyebrow.textContent = categoriaLimpa || item.cat;
       card.appendChild(eyebrow);
 
       var tit = document.createElement('h3');
-      tit.className = destaque
-        ? 'font-serif text-xl md:text-2xl font-bold text-white leading-snug mb-3'
-        : 'font-serif text-lg font-bold text-stone-900 leading-snug mb-2';
+      if (ehBlog) {
+        tit.className = destaque
+          ? 'font-sans text-xl md:text-2xl font-bold text-white leading-snug mb-3'
+          : 'font-sans text-lg font-bold text-slate-900 leading-snug mb-2';
+      } else {
+        tit.className = destaque
+          ? 'font-serif text-xl md:text-2xl font-bold text-white leading-snug mb-3'
+          : 'font-serif text-lg font-bold text-stone-900 leading-snug mb-2';
+      }
       tit.textContent = extrairTitulo(item.texto);
       card.appendChild(tit);
 
       var resumo = document.createElement('p');
-      resumo.className = 'leading-relaxed mb-5 flex-1 text-sm ' + (destaque ? 'text-white/80' : 'text-stone-600');
+      resumo.className = 'leading-relaxed mb-5 flex-1 text-sm ' + (destaque ? 'text-white/80' : (ehBlog ? 'text-slate-600' : 'text-stone-600'));
       resumo.textContent = extrairResumo(item.texto);
       card.appendChild(resumo);
 
       var rodape = document.createElement('div');
-      rodape.className = 'flex items-center justify-between gap-2 mt-auto pt-4 border-t ' + (destaque ? 'border-white/15' : 'border-stone-100/80');
+      rodape.className = 'flex items-center justify-between gap-2 mt-auto pt-4 border-t ' + (destaque ? 'border-white/15' : (ehBlog ? 'border-slate-100' : 'border-stone-100/80'));
 
       var dataSpan = document.createElement('span');
-      dataSpan.className = 'text-xs ' + (destaque ? 'text-white/60' : 'text-stone-500');
+      dataSpan.className = 'text-xs ' + (destaque ? 'text-white/60' : (ehBlog ? 'text-slate-500' : 'text-stone-500'));
       dataSpan.textContent = formatarData(item.data);
       rodape.appendChild(dataSpan);
 
@@ -194,14 +213,20 @@
         link.href = url;
         link.target = '_blank';
         link.rel = 'noopener';
-        link.className = destaque
-          ? 'inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1.5 bg-white text-red-700 hover:bg-stone-100 transition-colors whitespace-nowrap'
-          : 'inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1.5 bg-red-600 text-white hover:bg-red-700 transition-colors whitespace-nowrap';
+        if (ehBlog) {
+          link.className = destaque
+            ? 'inline-flex items-center gap-1 text-xs font-semibold rounded px-3 py-1.5 bg-white text-slate-900 hover:bg-slate-100 transition-colors whitespace-nowrap'
+            : 'inline-flex items-center gap-1 text-xs font-semibold rounded px-3 py-1.5 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors whitespace-nowrap';
+        } else {
+          link.className = destaque
+            ? 'inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1.5 bg-white text-red-700 hover:bg-stone-100 transition-colors whitespace-nowrap'
+            : 'inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1.5 bg-red-600 text-white hover:bg-red-700 transition-colors whitespace-nowrap';
+        }
         link.textContent = 'Ler em ' + (fonte || 'fonte') + ' ↗';
         rodape.appendChild(link);
       } else if (fonte) {
         var fonteSpan = document.createElement('span');
-        fonteSpan.className = 'text-xs ' + (destaque ? 'text-white/60' : 'text-stone-500');
+        fonteSpan.className = 'text-xs ' + (destaque ? 'text-white/60' : (ehBlog ? 'text-slate-500' : 'text-stone-500'));
         fonteSpan.textContent = fonte;
         rodape.appendChild(fonteSpan);
       }
@@ -272,7 +297,7 @@
 
         var grid = document.createElement('div');
         grid.className = 'grid sm:grid-cols-2 lg:grid-cols-3 gap-6';
-        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0, s.nome)); });
+        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0, s.nome, 'noticia')); });
         inner.appendChild(grid);
 
         secao.appendChild(inner);
@@ -300,7 +325,7 @@
         if (navEl) {
           var tabBlog = document.createElement('a');
           tabBlog.href = '#blog';
-          tabBlog.className = 'text-red-500 hover:text-red-400 transition-colors border-l border-white/20 pl-5';
+          tabBlog.className = 'text-indigo-300 hover:text-indigo-200 transition-colors border-l border-white/20 pl-5';
           tabBlog.textContent = 'Blog →';
           navEl.appendChild(tabBlog);
         }
@@ -331,31 +356,35 @@
 
       var divisor = document.createElement('div');
       divisor.id = 'blog';
-      divisor.className = 'bg-white border-t-4 border-red-600 py-12';
+      divisor.className = 'bg-slate-900 py-14';
       var divisorInner = document.createElement('div');
       divisorInner.className = 'max-w-6xl mx-auto px-6';
       var kicker = document.createElement('p');
-      kicker.className = 'text-xs font-semibold tracking-widest text-red-600 mb-2';
-      kicker.textContent = 'Fora do fluxo de notícias';
+      kicker.className = 'text-xs font-semibold tracking-wide text-indigo-300 mb-2 uppercase';
+      kicker.textContent = 'Curadoria de marketing — não é notícia de jornal';
       divisorInner.appendChild(kicker);
       var tituloBlog = document.createElement('h2');
-      tituloBlog.className = 'font-serif text-3xl md:text-4xl font-bold text-stone-900';
-      tituloBlog.textContent = 'Blog · Marketing e publicidade';
+      tituloBlog.className = 'font-sans text-3xl md:text-4xl font-bold text-white';
+      tituloBlog.textContent = 'Marketing e publicidade';
       divisorInner.appendChild(tituloBlog);
+      var subBlog = document.createElement('p');
+      subBlog.className = 'font-sans text-sm text-slate-300 mt-3 max-w-2xl';
+      subBlog.textContent = 'Seleção de movimentos e tendências do mercado de marketing automotivo — pra inspirar conteúdo, não pra noticiar fato do dia.';
+      divisorInner.appendChild(subBlog);
       divisor.appendChild(divisorInner);
       wrap.appendChild(divisor);
 
       secoesBlog.forEach(function (s) {
         var itens = grupos[s.nome];
         var secao = document.createElement('section');
-        secao.className = 'bg-stone-100 py-16';
+        secao.className = 'bg-slate-50 py-16';
 
         var inner = document.createElement('div');
         inner.className = 'max-w-6xl mx-auto px-6';
 
         var grid = document.createElement('div');
         grid.className = 'grid sm:grid-cols-2 lg:grid-cols-3 gap-6';
-        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0, s.nome)); });
+        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0, s.nome, 'blog')); });
         inner.appendChild(grid);
 
         secao.appendChild(inner);
