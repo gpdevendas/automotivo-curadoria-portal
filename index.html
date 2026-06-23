@@ -35,7 +35,7 @@
         </select>
       </div>
       <nav id="categoria-nav" class="flex flex-wrap gap-x-5 gap-y-2 mt-8 text-xs font-semibold tracking-wide"></nav>
-      <p class="text-xs text-white/50 mt-8">Atualizado em 22/06/2026 21:48</p>
+      <p class="text-xs text-white/50 mt-8">Atualizado em 22/06/2026 21:52</p>
     </div>
   </section>
 
@@ -190,6 +190,10 @@
 
     function itensNoFiltro() {
       if (filtroAtual === 'tudo') return todosItens;
+      if (filtroAtual.indexOf('dia:') === 0) {
+        var diaEscolhido = filtroAtual.slice(4);
+        return todosItens.filter(function (item) { return item.data === diaEscolhido; });
+      }
       var hoje = new Date();
       hoje.setHours(0, 0, 0, 0);
       var limiteMs = hoje.getTime() - ((FILTROS_DIAS[filtroAtual] - 1) * 24 * 60 * 60 * 1000);
@@ -368,6 +372,18 @@
       renderSecoes();
       renderBlog();
       aplicarBusca();
+    }
+
+    if (filtroEl && dados.length) {
+      var grupoDias = document.createElement('optgroup');
+      grupoDias.label = 'Dia específico';
+      dados.forEach(function (dia) {
+        var opt = document.createElement('option');
+        opt.value = 'dia:' + dia.data;
+        opt.textContent = formatarData(dia.data);
+        grupoDias.appendChild(opt);
+      });
+      filtroEl.appendChild(grupoDias);
     }
 
     renderTudo();
