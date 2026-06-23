@@ -25,12 +25,18 @@
         <input id="busca" type="text" aria-label="Buscar notícias por palavra-chave" placeholder="buscar por palavra-chave..."
           class="w-full bg-transparent border-0 border-b border-white/30 text-white placeholder-white/50 px-0 py-2 text-sm focus:outline-none focus:border-red-400 transition-colors">
       </div>
-      <nav id="categoria-nav" class="flex flex-wrap gap-x-5 gap-y-2 mt-10 text-xs font-semibold tracking-wide lowercase"></nav>
-      <p class="text-xs text-white/50 mt-8 lowercase">atualizado em 22/06/2026 21:27</p>
+      <div class="flex flex-wrap items-center gap-3 mt-6">
+        <label for="filtro-data" class="text-xs font-semibold tracking-widest text-white/50 lowercase">mostrando</label>
+        <select id="filtro-data" class="bg-white/10 border border-white/30 text-white text-xs font-semibold rounded-full px-4 py-2 focus:outline-none focus:border-red-400 lowercase">
+          <option value="7">últimos 7 dias</option>
+          <option value="30">últimos 30 dias</option>
+          <option value="tudo">tudo</option>
+        </select>
+      </div>
+      <nav id="categoria-nav" class="flex flex-wrap gap-x-5 gap-y-2 mt-8 text-xs font-semibold tracking-wide lowercase"></nav>
+      <p class="text-xs text-white/50 mt-8 lowercase">atualizado em 22/06/2026 21:36</p>
     </div>
   </section>
-
-  <div id="destaques-wrap"></div>
 
   <main id="secoes"></main>
 
@@ -55,6 +61,9 @@
     var dados = JSON.parse(document.getElementById('dados-curadoria').textContent);
     var secoesEl = document.getElementById('secoes');
     var buscaEl = document.getElementById('busca');
+    var filtroEl = document.getElementById('filtro-data');
+    var filtroAtual = '7';
+    var FILTROS_DIAS = { '7': 7, '30': 30 };
 
     var MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
@@ -124,21 +133,21 @@
       });
     });
 
-    function montarCard(item, destaque) {
+    function montarCard(item, destaque, categoriaLimpa) {
       var card = document.createElement('article');
       card.className = destaque
-        ? 'sm:col-span-2 lg:col-span-2 lg:row-span-2 bg-stone-950 rounded-sm p-8 flex flex-col h-full transition-opacity hover:opacity-95'
+        ? 'sm:col-span-2 bg-stone-950 rounded-sm p-6 flex flex-col h-full transition-opacity hover:opacity-95'
         : 'bg-white border-l-4 border-red-600 rounded-sm shadow-sm p-6 flex flex-col h-full hover:shadow-md transition-shadow';
       card.dataset.busca = (item.cat + ' ' + item.texto).toLowerCase();
 
       var eyebrow = document.createElement('p');
       eyebrow.className = 'text-xs font-semibold tracking-widest lowercase mb-3 ' + (destaque ? 'text-red-500' : 'text-red-600');
-      eyebrow.textContent = item.cat;
+      eyebrow.textContent = categoriaLimpa || item.cat;
       card.appendChild(eyebrow);
 
       var tit = document.createElement('h3');
       tit.className = destaque
-        ? 'font-serif text-2xl md:text-3xl font-bold text-white leading-snug mb-3'
+        ? 'font-serif text-xl md:text-2xl font-bold text-white leading-snug mb-3'
         : 'font-serif text-lg font-bold text-stone-900 leading-snug mb-2';
       tit.textContent = extrairTitulo(item.texto);
       card.appendChild(tit);
@@ -176,35 +185,15 @@
       return card;
     }
 
-    function renderDestaques() {
-      var wrap = document.getElementById('destaques-wrap');
-      if (!wrap || !dados.length) return;
-      var maisRecente = dados[0];
-      var lista = (maisRecente.categorias || {})['Destaques do dia'];
-      if (!lista || lista.length === 0) return;
-
-      var secao = document.createElement('section');
-      secao.className = 'bg-stone-950 py-16';
-      var inner = document.createElement('div');
-      inner.className = 'max-w-6xl mx-auto px-6';
-
-      var kicker = document.createElement('p');
-      kicker.className = 'text-xs font-semibold tracking-widest text-red-500 lowercase mb-6';
-      kicker.textContent = 'destaques de ' + formatarData(maisRecente.data);
-      inner.appendChild(kicker);
-
-      var grid = document.createElement('div');
-      grid.className = 'grid md:grid-cols-' + Math.min(lista.length, 3) + ' gap-8';
-      lista.forEach(function (texto) {
-        var limpo = texto.replace(/\*\*/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').trim();
-        var item = document.createElement('p');
-        item.className = 'font-serif text-xl md:text-2xl font-bold text-white leading-snug';
-        item.textContent = limpo;
-        grid.appendChild(item);
+    function itensNoFiltro() {
+      if (filtroAtual === 'tudo') return todosItens;
+      var hoje = new Date();
+      hoje.setHours(0, 0, 0, 0);
+      var limiteMs = hoje.getTime() - ((FILTROS_DIAS[filtroAtual] - 1) * 24 * 60 * 60 * 1000);
+      return todosItens.filter(function (item) {
+        var t = new Date(item.data + 'T00:00:00').getTime();
+        return t >= limiteMs;
       });
-      inner.appendChild(grid);
-      secao.appendChild(inner);
-      wrap.appendChild(secao);
     }
 
     function renderSecoes() {
@@ -219,8 +208,14 @@
         return;
       }
 
+      var itensFiltrados = itensNoFiltro();
+      if (itensFiltrados.length === 0) {
+        secoesEl.innerHTML = '<p class="text-stone-500 text-sm max-w-6xl mx-auto px-6 py-16">Nenhuma notícia nesse período. Tenta ampliar o filtro acima.</p>';
+        return;
+      }
+
       var grupos = {};
-      todosItens.forEach(function (item) {
+      itensFiltrados.forEach(function (item) {
         var nomeSecao = secaoDoItem(item.cat);
         if (!grupos[nomeSecao]) grupos[nomeSecao] = [];
         grupos[nomeSecao].push(item);
@@ -249,7 +244,7 @@
 
         var grid = document.createElement('div');
         grid.className = 'grid sm:grid-cols-2 lg:grid-cols-3 gap-6';
-        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0)); });
+        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0, s.nome)); });
         inner.appendChild(grid);
 
         secao.appendChild(inner);
@@ -297,7 +292,7 @@
       wrap.innerHTML = '';
 
       var grupos = {};
-      todosItens.forEach(function (item) {
+      itensNoFiltro().forEach(function (item) {
         var nomeSecao = secaoDoItem(item.cat);
         if (!grupos[nomeSecao]) grupos[nomeSecao] = [];
         grupos[nomeSecao].push(item);
@@ -332,7 +327,7 @@
 
         var grid = document.createElement('div');
         grid.className = 'grid sm:grid-cols-2 lg:grid-cols-3 gap-6';
-        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0)); });
+        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0, s.nome)); });
         inner.appendChild(grid);
 
         secao.appendChild(inner);
@@ -366,10 +361,21 @@
       }
     }
 
-    renderDestaques();
-    renderSecoes();
-    renderBlog();
+    function renderTudo() {
+      renderSecoes();
+      renderBlog();
+      aplicarBusca();
+    }
+
+    renderTudo();
     buscaEl.addEventListener('input', aplicarBusca);
+    if (filtroEl) {
+      filtroEl.value = filtroAtual;
+      filtroEl.addEventListener('change', function () {
+        filtroAtual = filtroEl.value;
+        renderTudo();
+      });
+    }
   </script>
 </body>
 </html>
