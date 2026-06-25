@@ -37,27 +37,28 @@
       <div class="flex flex-wrap items-center gap-3 mt-6">
         <label for="filtro-data" class="text-xs font-semibold tracking-widest text-white/50">Mostrando</label>
         <select id="filtro-data" class="bg-white/10 border border-white/30 text-white text-xs font-semibold rounded-full px-4 py-2 focus:outline-none focus:border-red-400">
+          <option value="hoje">Hoje</option>
           <option value="7">Últimos 7 dias</option>
           <option value="30">Últimos 30 dias</option>
           <option value="tudo">Tudo</option>
         </select>
       </div>
-      <nav id="categoria-nav" class="flex flex-wrap gap-x-5 gap-y-2 mt-8 text-xs font-semibold tracking-wide"></nav>
-      <p class="text-xs text-white/50 mt-8">Atualizado em 25/06/2026 11:14</p>
+      <p class="text-xs text-white/50 mt-8">Atualizado em 25/06/2026 11:46</p>
     </div>
   </section>
 
-  <main id="secoes"></main>
+  <div id="chips-bar" class="sticky top-0 z-10 bg-stone-50/95 backdrop-blur border-b border-stone-200">
+    <div id="chips" class="max-w-2xl mx-auto px-6 py-3 flex gap-2 overflow-x-auto"></div>
+  </div>
 
-  <div id="blog-wrap"></div>
+  <main id="feed" class="max-w-2xl mx-auto px-6 py-10 space-y-5"></main>
 
   <footer class="bg-stone-950 text-stone-300">
-    <div class="max-w-6xl mx-auto px-6 py-14 grid sm:grid-cols-3 gap-10">
+    <div class="max-w-6xl mx-auto px-6 py-14 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
       <div>
         <p class="text-sm font-bold text-white mb-2">Radar Automotivo</p>
         <p class="text-xs text-stone-400 leading-relaxed">GP de Vendas · Automotivo<br>Pílula diária de notícias do setor.</p>
       </div>
-      <div id="footer-secoes" class="text-xs space-y-2"></div>
       <div class="text-xs text-stone-500 leading-relaxed sm:text-right">
         <p>Gerado automaticamente pela skill /curadoria-automotiva</p>
         <p>A partir de curadoria/AAAA-MM-DD.md</p>
@@ -79,10 +80,14 @@
     })();
 
     var dados = JSON.parse(document.getElementById('dados-curadoria').textContent);
-    var secoesEl = document.getElementById('secoes');
+    var feedEl = document.getElementById('feed');
+    var chipsEl = document.getElementById('chips');
     var buscaEl = document.getElementById('busca');
     var filtroEl = document.getElementById('filtro-data');
-    var filtroAtual = '7';
+    var filtroAtual = 'hoje';
+    var categoriaAtual = 'tudo';
+    var mostrarCount = 8;
+    var LOTE = 8;
     var FILTROS_DIAS = { '7': 7, '30': 30 };
 
     var MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
@@ -93,6 +98,13 @@
       var ano = partes[0], mes = parseInt(partes[1], 10) - 1, dia = parseInt(partes[2], 10);
       if (mes < 0 || mes > 11) return iso;
       return dia + ' de ' + MESES[mes] + ' de ' + ano;
+    }
+
+    function hojeISO() {
+      var d = new Date();
+      var mes = ('0' + (d.getMonth() + 1)).slice(-2);
+      var dia = ('0' + d.getDate()).slice(-2);
+      return d.getFullYear() + '-' + mes + '-' + dia;
     }
 
     function extrairTitulo(texto) {
@@ -112,16 +124,6 @@
       return m ? m[2] : null;
     }
 
-    var SECOES = [
-      { nome: 'Mercado e vendas', slug: 'mercado-e-vendas', tipo: 'noticia' },
-      { nome: 'Impostos e legislação', slug: 'impostos-e-legislacao', tipo: 'noticia' },
-      { nome: 'Notícias gerais', slug: 'noticias-gerais', tipo: 'noticia' },
-      { nome: 'Lançamentos e novidades', slug: 'lancamentos-e-novidades', tipo: 'noticia' },
-      { nome: 'Elétricos e tendências', slug: 'eletricos-e-tendencias', tipo: 'noticia' },
-      { nome: 'Varejo e concessionária', slug: 'varejo-e-concessionaria', tipo: 'noticia' },
-      { nome: 'Marketing e publicidade', slug: 'marketing-e-publicidade', tipo: 'blog' }
-    ];
-
     function extrairResumo(texto) {
       var s = texto;
       s = s.replace(/^\*\*[^*]+\*\*\s*/, '');
@@ -131,78 +133,116 @@
       return s.length > 150 ? s.slice(0, 150) + '…' : s;
     }
 
-    function secaoDoItem(cat) {
-      var c = cat.toLowerCase();
-      if (c.indexOf('imposto') !== -1 || c.indexOf('legisla') !== -1) return 'Impostos e legislação';
-      if (c.indexOf('elétric') !== -1 || c.indexOf('eletric') !== -1 || c.indexOf('híbrid') !== -1 || c.indexOf('hibrid') !== -1) return 'Elétricos e tendências';
-      if (c.indexOf('lançamento') !== -1 || c.indexOf('lancamento') !== -1 || c.indexOf('novidade') !== -1) return 'Lançamentos e novidades';
-      if (c.indexOf('varejo') !== -1 || c.indexOf('concession') !== -1) return 'Varejo e concessionária';
-      if (c.indexOf('marketing') !== -1 || c.indexOf('publicidade') !== -1 || c.indexOf('campanha') !== -1) return 'Marketing e publicidade';
-      if (c.indexOf('mercado') !== -1 || c.indexOf('compra') !== -1 || c.indexOf('venda') !== -1) return 'Mercado e vendas';
-      return 'Notícias gerais';
+    // --- Fontes que são blog/portal automotivo, não jornalismo tradicional ---
+    var FONTES_BLOG = ['autopapo', 'carplace', 'motor1', 'quatro rodas'];
+
+    function ehItemBlog(texto) {
+      var fonte = extrairFonte(texto);
+      if (!fonte) return false;
+      var f = fonte.toLowerCase();
+      return FONTES_BLOG.some(function (b) { return f.indexOf(b) !== -1; });
     }
 
-    // --- Achata todos os itens (sem Destaques do dia) ---
+    var PLACEHOLDER_RE = /^(nada relevante|sem item novo|cobertos? acima)/i;
+
+    var CATEGORIA_ORDEM = [
+      { nome: 'Compra e venda / mercado', chip: 'Mercado' },
+      { nome: 'Impostos e legislação (Brasil)', chip: 'Impostos' },
+      { nome: 'Notícias gerais do setor', chip: 'Geral' },
+      { nome: 'Novidades e lançamentos — Brasil', chip: 'Lançamentos BR' },
+      { nome: 'Novidades e lançamentos — Internacional', chip: 'Lançamentos mundo' },
+      { nome: 'Elétricos, híbridos e tendências', chip: 'Elétricos' },
+      { nome: 'Marketing e publicidade', chip: 'Marketing' },
+      { nome: 'Automotivo + varejo/concessionária', chip: 'Varejo' },
+      { nome: 'Marketing automotivo (campanhas e publicidade de marca)', chip: 'Campanhas' }
+    ];
+
+    function categoriaIndex(cat) {
+      for (var i = 0; i < CATEGORIA_ORDEM.length; i++) {
+        if (CATEGORIA_ORDEM[i].nome === cat) return i;
+      }
+      return CATEGORIA_ORDEM.length;
+    }
+
+    // --- Achata itens (sem Destaques do dia), tira placeholder e limita a 3 por categoria/dia ---
     var todosItens = [];
+    var todosDestaques = [];
     dados.forEach(function (dia) {
       var categorias = dia.categorias || {};
-      Object.keys(categorias).filter(function (c) { return c !== 'Destaques do dia'; }).forEach(function (cat) {
-        categorias[cat].forEach(function (texto) {
-          todosItens.push({ cat: cat, texto: texto, data: dia.data });
-        });
+      Object.keys(categorias).forEach(function (cat) {
+        if (cat === 'Destaques do dia') {
+          categorias[cat].forEach(function (texto) {
+            if (!PLACEHOLDER_RE.test(texto.trim())) todosDestaques.push({ texto: texto, data: dia.data });
+          });
+          return;
+        }
+        categorias[cat]
+          .filter(function (texto) { return !PLACEHOLDER_RE.test(texto.trim()); })
+          .slice(0, 3)
+          .forEach(function (texto) {
+            todosItens.push({ cat: cat, texto: texto, data: dia.data, blog: ehItemBlog(texto) });
+          });
       });
     });
+    todosItens.sort(function (a, b) {
+      if (a.data !== b.data) return a.data < b.data ? 1 : -1;
+      return categoriaIndex(a.cat) - categoriaIndex(b.cat);
+    });
 
-    function montarCard(item, destaque, categoriaLimpa, tipo) {
-      var ehBlog = tipo === 'blog';
+    function passaFiltroData(dataItem) {
+      if (filtroAtual === 'tudo') return true;
+      if (filtroAtual.indexOf('dia:') === 0) return dataItem === filtroAtual.slice(4);
+      if (filtroAtual === 'hoje') return dataItem === hojeISO();
+      var hoje = new Date();
+      hoje.setHours(0, 0, 0, 0);
+      var limiteMs = hoje.getTime() - ((FILTROS_DIAS[filtroAtual] - 1) * 24 * 60 * 60 * 1000);
+      return new Date(dataItem + 'T00:00:00').getTime() >= limiteMs;
+    }
+
+    function montarCardFeed(item, destaqueVisual) {
       var card = document.createElement('article');
-      if (ehBlog) {
-        card.className = destaque
-          ? 'sm:col-span-2 bg-slate-900 rounded-xl shadow-md p-7 flex flex-col h-full transition-all duration-300 hover:shadow-xl'
-          : 'bg-white rounded-xl shadow-sm ring-1 ring-slate-200 p-6 flex flex-col h-full transition-all duration-300 hover:shadow-md';
-      } else {
-        card.className = destaque
-          ? 'sm:col-span-2 bg-gradient-to-br from-red-600 to-red-800 rounded-2xl shadow-md p-7 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1'
-          : 'bg-[#FAF7F2] rounded-2xl shadow-sm ring-1 ring-stone-100 p-6 flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1';
-      }
+      card.className = destaqueVisual
+        ? 'bg-gradient-to-br from-red-600 to-red-800 rounded-2xl shadow-md p-7'
+        : 'bg-[#FAF7F2] rounded-2xl shadow-sm ring-1 ring-stone-100 p-6 transition-all duration-300 hover:shadow-md';
       card.dataset.busca = (item.cat + ' ' + item.texto).toLowerCase();
 
+      var tags = document.createElement('div');
+      tags.className = 'flex items-center gap-2 mb-3';
+
       var eyebrow = document.createElement('span');
-      if (ehBlog) {
-        eyebrow.className = destaque
-          ? 'inline-block text-xs font-semibold tracking-wide mb-3 text-indigo-300 uppercase'
-          : 'inline-block text-xs font-semibold tracking-wide mb-3 text-indigo-600 bg-indigo-50 rounded px-2 py-1 w-fit uppercase';
-      } else {
-        eyebrow.className = destaque
-          ? 'inline-block text-xs font-semibold tracking-widest mb-3 text-white/70 uppercase'
-          : 'inline-block text-xs font-semibold tracking-widest mb-3 text-red-600 bg-red-50 rounded-full px-2.5 py-1 w-fit uppercase';
+      eyebrow.className = destaqueVisual
+        ? 'inline-block text-xs font-semibold tracking-widest text-white/70 uppercase'
+        : 'inline-block text-xs font-semibold tracking-widest text-red-600 bg-red-50 rounded-full px-2.5 py-1 w-fit uppercase';
+      eyebrow.textContent = item.cat;
+      tags.appendChild(eyebrow);
+
+      if (item.blog) {
+        var tagBlog = document.createElement('span');
+        tagBlog.className = destaqueVisual
+          ? 'inline-block text-xs font-semibold tracking-wide text-white/70 uppercase'
+          : 'inline-block text-xs font-semibold tracking-wide text-indigo-600 bg-indigo-50 rounded px-2 py-1 w-fit uppercase';
+        tagBlog.textContent = 'Blog';
+        tags.appendChild(tagBlog);
       }
-      eyebrow.textContent = categoriaLimpa || item.cat;
-      card.appendChild(eyebrow);
+      card.appendChild(tags);
 
       var tit = document.createElement('h3');
-      if (ehBlog) {
-        tit.className = destaque
-          ? 'font-sans text-xl md:text-2xl font-bold text-white leading-snug mb-3'
-          : 'font-sans text-lg font-bold text-slate-900 leading-snug mb-2';
-      } else {
-        tit.className = destaque
-          ? 'font-serif text-xl md:text-2xl font-bold text-white leading-snug mb-3'
-          : 'font-serif text-lg font-bold text-stone-900 leading-snug mb-2';
-      }
+      tit.className = destaqueVisual
+        ? 'font-serif text-xl md:text-2xl font-bold text-white leading-snug mb-3'
+        : 'font-serif text-lg font-bold text-stone-900 leading-snug mb-2';
       tit.textContent = extrairTitulo(item.texto);
       card.appendChild(tit);
 
       var resumo = document.createElement('p');
-      resumo.className = 'leading-relaxed mb-5 flex-1 text-sm ' + (destaque ? 'text-white/80' : (ehBlog ? 'text-slate-600' : 'text-stone-600'));
+      resumo.className = 'leading-relaxed mb-5 text-sm ' + (destaqueVisual ? 'text-white/80' : 'text-stone-600');
       resumo.textContent = extrairResumo(item.texto);
       card.appendChild(resumo);
 
       var rodape = document.createElement('div');
-      rodape.className = 'flex items-center justify-between gap-2 mt-auto pt-4 border-t ' + (destaque ? 'border-white/15' : (ehBlog ? 'border-slate-100' : 'border-stone-100/80'));
+      rodape.className = 'flex items-center justify-between gap-2 pt-4 border-t ' + (destaqueVisual ? 'border-white/15' : 'border-stone-100/80');
 
       var dataSpan = document.createElement('span');
-      dataSpan.className = 'text-xs ' + (destaque ? 'text-white/60' : (ehBlog ? 'text-slate-500' : 'text-stone-500'));
+      dataSpan.className = 'text-xs ' + (destaqueVisual ? 'text-white/60' : 'text-stone-500');
       dataSpan.textContent = formatarData(item.data);
       rodape.appendChild(dataSpan);
 
@@ -213,20 +253,14 @@
         link.href = url;
         link.target = '_blank';
         link.rel = 'noopener';
-        if (ehBlog) {
-          link.className = destaque
-            ? 'inline-flex items-center gap-1 text-xs font-semibold rounded px-3 py-1.5 bg-white text-slate-900 hover:bg-slate-100 transition-colors whitespace-nowrap'
-            : 'inline-flex items-center gap-1 text-xs font-semibold rounded px-3 py-1.5 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors whitespace-nowrap';
-        } else {
-          link.className = destaque
-            ? 'inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1.5 bg-white text-red-700 hover:bg-stone-100 transition-colors whitespace-nowrap'
-            : 'inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1.5 bg-red-600 text-white hover:bg-red-700 transition-colors whitespace-nowrap';
-        }
+        link.className = destaqueVisual
+          ? 'inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1.5 bg-white text-red-700 hover:bg-stone-100 transition-colors whitespace-nowrap'
+          : 'inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1.5 bg-red-600 text-white hover:bg-red-700 transition-colors whitespace-nowrap';
         link.textContent = 'Ler em ' + (fonte || 'fonte') + ' ↗';
         rodape.appendChild(link);
       } else if (fonte) {
         var fonteSpan = document.createElement('span');
-        fonteSpan.className = 'text-xs ' + (destaque ? 'text-white/60' : (ehBlog ? 'text-slate-500' : 'text-stone-500'));
+        fonteSpan.className = 'text-xs ' + (destaqueVisual ? 'text-white/60' : 'text-stone-500');
         fonteSpan.textContent = fonte;
         rodape.appendChild(fonteSpan);
       }
@@ -234,194 +268,96 @@
       return card;
     }
 
-    function itensNoFiltro() {
-      if (filtroAtual === 'tudo') return todosItens;
-      if (filtroAtual.indexOf('dia:') === 0) {
-        var diaEscolhido = filtroAtual.slice(4);
-        return todosItens.filter(function (item) { return item.data === diaEscolhido; });
-      }
-      var hoje = new Date();
-      hoje.setHours(0, 0, 0, 0);
-      var limiteMs = hoje.getTime() - ((FILTROS_DIAS[filtroAtual] - 1) * 24 * 60 * 60 * 1000);
-      return todosItens.filter(function (item) {
-        var t = new Date(item.data + 'T00:00:00').getTime();
-        return t >= limiteMs;
+    function montarCardDestaque(destaque) {
+      var card = document.createElement('article');
+      card.className = 'bg-stone-950 rounded-2xl shadow-md p-7';
+      card.dataset.busca = ('destaque ' + destaque.texto).toLowerCase();
+
+      var eyebrow = document.createElement('span');
+      eyebrow.className = 'inline-block text-xs font-semibold tracking-widest text-red-400 uppercase mb-3';
+      eyebrow.textContent = 'Destaque do dia';
+      card.appendChild(eyebrow);
+
+      var texto = document.createElement('p');
+      texto.className = 'text-white leading-relaxed text-sm md:text-base';
+      texto.textContent = destaque.texto;
+      card.appendChild(texto);
+
+      var dataSpan = document.createElement('p');
+      dataSpan.className = 'text-xs text-white/50 mt-4';
+      dataSpan.textContent = formatarData(destaque.data);
+      card.appendChild(dataSpan);
+      return card;
+    }
+
+    function renderChips() {
+      chipsEl.innerHTML = '';
+      var lista = [{ nome: 'tudo', chip: 'Tudo' }].concat(CATEGORIA_ORDEM.map(function (c) { return { nome: c.nome, chip: c.chip }; }));
+      lista.forEach(function (c) {
+        var btn = document.createElement('button');
+        var ativo = categoriaAtual === c.nome;
+        btn.type = 'button';
+        btn.className = ativo
+          ? 'flex-shrink-0 text-xs font-semibold rounded-full px-4 py-2 bg-stone-900 text-white'
+          : 'flex-shrink-0 text-xs font-semibold rounded-full px-4 py-2 bg-stone-100 text-stone-600 hover:bg-stone-200 transition-colors';
+        btn.textContent = c.chip;
+        btn.addEventListener('click', function () {
+          categoriaAtual = c.nome;
+          mostrarCount = LOTE;
+          renderTudo();
+        });
+        chipsEl.appendChild(btn);
       });
     }
 
-    function renderSecoes() {
-      secoesEl.innerHTML = '';
-      var footerEl = document.getElementById('footer-secoes');
-      if (footerEl) footerEl.innerHTML = '';
-      var navEl = document.getElementById('categoria-nav');
-      if (navEl) navEl.innerHTML = '';
+    function renderFeed() {
+      feedEl.innerHTML = '';
+      renderChips();
 
       if (todosItens.length === 0) {
-        secoesEl.innerHTML = '<p class="text-stone-500 text-sm max-w-6xl mx-auto px-6 py-16">Nenhuma notícia encontrada em curadoria/ ainda.</p>';
+        feedEl.innerHTML = '<p class="text-stone-500 text-sm py-16">Nenhuma notícia encontrada em curadoria/ ainda.</p>';
         return;
       }
 
-      var itensFiltrados = itensNoFiltro();
-      if (itensFiltrados.length === 0) {
-        secoesEl.innerHTML = '<p class="text-stone-500 text-sm max-w-6xl mx-auto px-6 py-16">Nenhuma notícia nesse período. Tenta ampliar o filtro acima.</p>';
-        return;
-      }
-
-      var grupos = {};
-      itensFiltrados.forEach(function (item) {
-        var nomeSecao = secaoDoItem(item.cat);
-        if (!grupos[nomeSecao]) grupos[nomeSecao] = [];
-        grupos[nomeSecao].push(item);
-      });
-
-      var idx = 0;
-      SECOES.filter(function (s) { return s.tipo === 'noticia'; }).forEach(function (s) {
-        var itens = grupos[s.nome];
-        if (!itens || itens.length === 0) return;
-
-        var secao = document.createElement('section');
-        secao.id = s.slug;
-        secao.className = (idx % 2 === 0 ? 'bg-white' : 'bg-stone-50') + ' py-16 border-b border-stone-100';
-        idx++;
-
-        var inner = document.createElement('div');
-        inner.className = 'max-w-6xl mx-auto px-6';
-
-        var titulo = document.createElement('h2');
-        titulo.className = 'flex items-center gap-3 font-serif text-3xl md:text-4xl font-bold text-stone-900 tracking-tight mb-8';
-        var dot = document.createElement('span');
-        dot.className = 'inline-block w-2.5 h-2.5 rounded-full bg-red-600 flex-shrink-0';
-        titulo.appendChild(dot);
-        titulo.appendChild(document.createTextNode(s.nome));
-        inner.appendChild(titulo);
-
-        var grid = document.createElement('div');
-        grid.className = 'grid sm:grid-cols-2 lg:grid-cols-3 gap-6';
-        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0, s.nome, 'noticia')); });
-        inner.appendChild(grid);
-
-        secao.appendChild(inner);
-        secoesEl.appendChild(secao);
-
-        if (navEl) {
-          var tabLink = document.createElement('a');
-          tabLink.href = '#' + s.slug;
-          tabLink.className = 'text-white/60 hover:text-white transition-colors';
-          tabLink.textContent = s.nome;
-          navEl.appendChild(tabLink);
-        }
-
-        if (footerEl) {
-          var navLink = document.createElement('a');
-          navLink.href = '#' + s.slug;
-          navLink.className = 'block text-stone-400 hover:text-white transition-colors';
-          navLink.textContent = s.nome;
-          footerEl.appendChild(navLink);
-        }
-      });
-
-      var temBlog = SECOES.some(function (s) { return s.tipo === 'blog' && grupos[s.nome] && grupos[s.nome].length > 0; });
-      if (temBlog) {
-        if (navEl) {
-          var tabBlog = document.createElement('a');
-          tabBlog.href = '#blog';
-          tabBlog.className = 'text-indigo-300 hover:text-indigo-200 transition-colors border-l border-white/20 pl-5';
-          tabBlog.textContent = 'Blog →';
-          navEl.appendChild(tabBlog);
-        }
-        if (footerEl) {
-          var blogLinkFooter = document.createElement('a');
-          blogLinkFooter.href = '#blog';
-          blogLinkFooter.className = 'block text-stone-400 hover:text-white transition-colors mt-3 pt-3 border-t border-stone-800';
-          blogLinkFooter.textContent = 'Blog · Marketing e publicidade';
-          footerEl.appendChild(blogLinkFooter);
-        }
-      }
-    }
-
-    function renderBlog() {
-      var wrap = document.getElementById('blog-wrap');
-      if (!wrap) return;
-      wrap.innerHTML = '';
-
-      var grupos = {};
-      itensNoFiltro().forEach(function (item) {
-        var nomeSecao = secaoDoItem(item.cat);
-        if (!grupos[nomeSecao]) grupos[nomeSecao] = [];
-        grupos[nomeSecao].push(item);
-      });
-
-      var secoesBlog = SECOES.filter(function (s) { return s.tipo === 'blog' && grupos[s.nome] && grupos[s.nome].length > 0; });
-      if (secoesBlog.length === 0) return;
-
-      var divisor = document.createElement('div');
-      divisor.id = 'blog';
-      divisor.className = 'bg-slate-900 py-14';
-      var divisorInner = document.createElement('div');
-      divisorInner.className = 'max-w-6xl mx-auto px-6';
-      var kicker = document.createElement('p');
-      kicker.className = 'text-xs font-semibold tracking-wide text-indigo-300 mb-2 uppercase';
-      kicker.textContent = 'Curadoria de marketing — não é notícia de jornal';
-      divisorInner.appendChild(kicker);
-      var tituloBlog = document.createElement('h2');
-      tituloBlog.className = 'font-sans text-3xl md:text-4xl font-bold text-white';
-      tituloBlog.textContent = 'Marketing e publicidade';
-      divisorInner.appendChild(tituloBlog);
-      var subBlog = document.createElement('p');
-      subBlog.className = 'font-sans text-sm text-slate-300 mt-3 max-w-2xl';
-      subBlog.textContent = 'Seleção de movimentos e tendências do mercado de marketing automotivo — pra inspirar conteúdo, não pra noticiar fato do dia.';
-      divisorInner.appendChild(subBlog);
-      divisor.appendChild(divisorInner);
-      wrap.appendChild(divisor);
-
-      secoesBlog.forEach(function (s) {
-        var itens = grupos[s.nome];
-        var secao = document.createElement('section');
-        secao.className = 'bg-slate-50 py-16';
-
-        var inner = document.createElement('div');
-        inner.className = 'max-w-6xl mx-auto px-6';
-
-        var grid = document.createElement('div');
-        grid.className = 'grid sm:grid-cols-2 lg:grid-cols-3 gap-6';
-        itens.forEach(function (item, i) { grid.appendChild(montarCard(item, i === 0, s.nome, 'blog')); });
-        inner.appendChild(grid);
-
-        secao.appendChild(inner);
-        wrap.appendChild(secao);
-      });
-    }
-
-    function aplicarBusca() {
       var query = buscaEl.value.trim().toLowerCase();
-      var algumVisivel = false;
-      secoesEl.querySelectorAll('article').forEach(function (card) {
-        var visivel = query === '' || card.dataset.busca.indexOf(query) !== -1;
-        card.style.display = visivel ? '' : 'none';
-        if (visivel) algumVisivel = true;
+      var itensFiltrados = todosItens.filter(function (item) {
+        if (!passaFiltroData(item.data)) return false;
+        if (categoriaAtual !== 'tudo' && item.cat !== categoriaAtual) return false;
+        if (query && (item.cat + ' ' + item.texto).toLowerCase().indexOf(query) === -1) return false;
+        return true;
       });
-      secoesEl.querySelectorAll('section').forEach(function (secao) {
-        var temVisivel = Array.prototype.some.call(secao.querySelectorAll('article'), function (c) { return c.style.display !== 'none'; });
-        secao.style.display = temVisivel ? '' : 'none';
+
+      var destaquesFiltrados = (categoriaAtual === 'tudo' && !query)
+        ? todosDestaques.filter(function (d) { return passaFiltroData(d.data); })
+        : [];
+
+      if (itensFiltrados.length === 0 && destaquesFiltrados.length === 0) {
+        feedEl.innerHTML = '<p class="text-stone-500 text-sm py-16">Nada por aqui pra esse filtro. Tenta ampliar o período ou trocar a categoria.</p>';
+        return;
+      }
+
+      destaquesFiltrados.forEach(function (d) { feedEl.appendChild(montarCardDestaque(d)); });
+
+      var limite = query ? itensFiltrados.length : mostrarCount;
+      itensFiltrados.slice(0, limite).forEach(function (item, i) {
+        feedEl.appendChild(montarCardFeed(item, destaquesFiltrados.length === 0 && i === 0));
       });
-      var vazioEl = document.getElementById('busca-vazia');
-      if (!algumVisivel && query !== '') {
-        if (!vazioEl) {
-          vazioEl = document.createElement('p');
-          vazioEl.id = 'busca-vazia';
-          vazioEl.className = 'text-sm text-stone-500 py-16 text-center max-w-6xl mx-auto px-6';
-          secoesEl.appendChild(vazioEl);
-        }
-        vazioEl.textContent = 'Nenhuma notícia encontrada pra "' + query + '". Tenta outro termo.';
-      } else if (vazioEl) {
-        vazioEl.remove();
+
+      if (!query && itensFiltrados.length > limite) {
+        var verMais = document.createElement('button');
+        verMais.type = 'button';
+        verMais.className = 'w-full text-sm font-semibold rounded-full px-5 py-3 bg-stone-100 text-stone-700 hover:bg-stone-200 transition-colors';
+        verMais.textContent = 'Ver mais notícias';
+        verMais.addEventListener('click', function () {
+          mostrarCount += LOTE;
+          renderFeed();
+        });
+        feedEl.appendChild(verMais);
       }
     }
 
     function renderTudo() {
-      renderSecoes();
-      renderBlog();
-      aplicarBusca();
+      renderFeed();
     }
 
     if (filtroEl && dados.length) {
@@ -437,11 +373,15 @@
     }
 
     renderTudo();
-    buscaEl.addEventListener('input', aplicarBusca);
+    buscaEl.addEventListener('input', function () {
+      mostrarCount = LOTE;
+      renderTudo();
+    });
     if (filtroEl) {
       filtroEl.value = filtroAtual;
       filtroEl.addEventListener('change', function () {
         filtroAtual = filtroEl.value;
+        mostrarCount = LOTE;
         renderTudo();
       });
     }
